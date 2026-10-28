@@ -43,9 +43,13 @@ Before opening a PR, make sure `go build ./...`, `go vet ./...`, and
 ## Adding a documentation language
 
 The docs live in `docs/<locale>/`, one folder per language, each with the same
-set of pages. English (`docs/en/`) is the canonical source. To add a language:
+set of pages. English (`docs/en/`) is the canonical source. Each language's home
+page is `index.md` (not `README.md`) — mkdocs-static-i18n builds the default
+language to the site root, so a `README.md` home would collide with the
+top-level `docs/README.md` hub. To add a language:
 
-1. Copy `docs/en/` to `docs/<locale>/` (e.g. `docs/de/`).
+1. Copy `docs/en/` to `docs/<locale>/` (e.g. `docs/de/`); keep the home as
+   `index.md`.
 2. Translate the **prose** in every page. Do **not** translate code blocks,
    commands, env-var names, CLI flags, agent invocations, file/path names, JSON
    keys, tool names (e.g. `mcp__telepath__approve`), or Telegram command names

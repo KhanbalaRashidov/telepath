@@ -6,10 +6,10 @@ machine. These docs are available in four languages — pick yours:
 
 | Language | Home |
 |----------|------|
-| 🇬🇧 English | [en/README.md](en/README.md) |
-| 🇷🇺 Русский | [ru/README.md](ru/README.md) |
-| 🇹🇷 Türkçe | [tr/README.md](tr/README.md) |
-| 🇦🇿 Azərbaycanca | [az/README.md](az/README.md) |
+| 🇬🇧 English | [en/index.md](en/index.md) |
+| 🇷🇺 Русский | [ru/index.md](ru/index.md) |
+| 🇹🇷 Türkçe | [tr/index.md](tr/index.md) |
+| 🇦🇿 Azərbaycanca | [az/index.md](az/index.md) |
 
 English is the canonical source; the other languages are kept in sync with it.
 

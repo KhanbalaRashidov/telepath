@@ -3,6 +3,21 @@ site_description: A multi-agent Telegram <-> coding-agent bridge with interactiv
 repo_url: https://github.com/KhanbalaRashidov/telepath
 docs_dir: docs
 
+# The per-page language switcher (first line of each page) uses relative
+# cross-language links (e.g. ../ru/agents.md) so it also works when browsing on
+# GitHub. mkdocs-static-i18n builds one language tree at a time and hides the
+# other languages' files from each build, so those cross-language links can't be
+# resolved during per-language link validation. In the published site, language
+# switching is handled by Material's built-in language selector, so these are
+# downgraded to INFO (instead of warnings) to keep `--strict` green. The same
+# applies to links that point outside docs_dir (e.g. ../../CONTRIBUTING.md).
+validation:
+  links:
+    not_found: info
+    anchors: info
+    absolute_links: info
+    unrecognized_links: info
+
 theme:
   name: material
   features:
@@ -24,8 +39,13 @@ theme:
         icon: material/weather-sunny
         name: Switch to light mode
 
-# Keep the GitHub-facing language hub out of the rendered nav.
-not_in_nav: |
+# Exclude the top-level GitHub-facing language hub (docs/README.md) from the
+# build. In folder mode the default language (en) builds to the site root, so
+# docs/en/index.md is the root index; the top-level docs/README.md (a
+# README) would normalize to that same root index and conflict. The leading
+# slash anchors this to docs_dir so only the top-level docs/README.md is
+# excluded; the per-language index.md homes are kept and built.
+exclude_docs: |
   /README.md
 
 plugins:
@@ -100,7 +120,7 @@ markdown_extensions:
 # The nav uses the default-language (en) paths; mkdocs-static-i18n maps each
 # item to the matching file under ru/, tr/, az/ for the other locales.
 nav:
-  - Home: en/README.md
+  - Home: en/index.md
   - Getting started: en/getting-started.md
   - Configuration: en/configuration.md
   - Telegram commands: en/telegram-commands.md

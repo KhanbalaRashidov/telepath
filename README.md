@@ -31,7 +31,7 @@ Two things set it apart from a plain bridge:
 
 Full docs live in [`docs/`](docs/README.md), in four languages:
 
-- 🇬🇧 [English](docs/en/README.md) · 🇷🇺 [Русский](docs/ru/README.md) · 🇹🇷 [Türkçe](docs/tr/README.md) · 🇦🇿 [Azərbaycanca](docs/az/README.md)
+- 🇬🇧 [English](docs/en/index.md) · 🇷🇺 [Русский](docs/ru/index.md) · 🇹🇷 [Türkçe](docs/tr/index.md) · 🇦🇿 [Azərbaycanca](docs/az/index.md)
 
 They cover [getting started](docs/en/getting-started.md),
 [configuration](docs/en/configuration.md),

@@ -1,4 +1,4 @@
-> **Languages:** [English](../en/README.md) · [Русский](../ru/README.md) · [Türkçe](../tr/README.md) · [Azərbaycanca](../az/README.md)
+> **Languages:** [English](../en/index.md) · [Русский](../ru/index.md) · [Türkçe](../tr/index.md) · [Azərbaycanca](../az/index.md)
 
 # Telepath — Documentation
 
