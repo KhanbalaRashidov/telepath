@@ -11,11 +11,18 @@ O, **tapşırıq branch-ında** commit edir (`BRANCH_COMMIT=true` olduqda), laki
 **Hansı agentlər canlı təsdiqi dəstəkləyir?**
 Yalnız **Claude Code** (onun MCP icazə-prompt aləti vasitəsilə). gemini, codex və aider üçün `interactive` avtomatik `allowlist`-ə keçir.
 
+**Slack ilə işləyir, yoxsa yalnız Telegram ilə?**
+Hər ikisi. `TRANSPORT=slack` (və ya `both`) təyin edin və `xoxb-`/`xapp-` token-lərini verin.
+Tapşırıqları botu mention etməklə, ona DM yazmaqla və ya `/telepath …` əmrindən istifadə etməklə işə salın.
+Bax: [Transportlar](transports.md).
+
 **Eyni anda bir neçə tapşırıq işlədə bilərmi?**
-Yox. Bütün chat-lar bir `PROJECTS_DIR` working tree-ni paylaşır, ona görə tapşırıqlar **ardıcıl** icra olunur — ümumilikdə bir-bir, hər chat üçün bir. Bax: [Problemlərin həlli](troubleshooting.md).
+Yox. Bütün söhbətlər (Telegram chat-ları və Slack kanalları) bir `PROJECTS_DIR` working tree-ni paylaşır,
+ona görə tapşırıqlar **ardıcıl** icra olunur — ümumilikdə bir-bir, hər söhbət üçün bir. Bax: [Problemlərin həlli](troubleshooting.md).
 
 **NAT arxasında / ictimai IP olmadan işləyirmi?**
-Bəli. Telegram **long-polling** (yalnız çıxış istiqamətində) istifadə edir — webhook, daxil olan port və ya ictimai IP tələb olunmur.
+Bəli. Telegram **long-polling**, Slack isə **Socket Mode** istifadə edir — hər ikisi yalnız çıxış istiqamətindədir,
+webhook, daxil olan port və ya ictimai IP tələb olunmur.
 
 **Agent API açarlarım haraya gedir?**
 Onlar host-unuzda agent CLI-ları ilə qalır və hər agentin öz sənədlərinə görə konfiqurasiya olunur. Telepath yalnız Telegram bot token-i və chat allowlist-ini saxlayır. Bax: [Təhlükəsizlik](security.md).
@@ -34,3 +41,8 @@ Releases-dən son binary-ni yükləyin, və ya mənbədən yenidən build edin (
 
 **Xərclər nə qədərdir?**
 Telepath pulsuzdur (MIT lisenziyası). Yalnız öz agent hesablarınız altında əsas agent/model istifadəsi üçün ödəyirsiniz.
+
+---
+
+<!-- prev-next -->
+[← Əvvəlki: Nasazlıqların aradan qaldırılması](./troubleshooting.md)

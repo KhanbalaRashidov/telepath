@@ -32,7 +32,40 @@ Notes:
   **Claude**. It runs in `auto` permission mode, and the project directory is
   restored from an in-memory map that is lost if Telepath restarts.
 
+## Slack commands
+
+On Slack, every command above is a subcommand of the single `/telepath` slash
+command, and tasks are triggered by mentioning the bot or DMing it. The mapping
+is 1:1 with Telegram:
+
+| Telegram | Slack |
+|----------|-------|
+| `/help` | `/telepath help` |
+| `/agents` | `/telepath agents` |
+| `/use <agent>` | `/telepath use <agent>` |
+| `/perm <mode>` | `/telepath perm <mode>` |
+| `/branch <mode>` | `/telepath branch <mode>` |
+| `/branches` | `/telepath branches` |
+| `/status` | `/telepath status` |
+| `/cancel` | `/telepath cancel` |
+| `/resume <text>` | `/telepath resume <text>` |
+| `/<agent> <task>` | `/telepath <agent> <task>` or `@Telepath <agent>: <task>` |
+| *(plain message)* | `@Telepath <task>` or a direct message |
+
+Notes:
+
+- A `/telepath` subcommand that is not a known command or agent name is treated
+  as a default-agent task (e.g. `/telepath fix the flaky test`).
+- Task output is posted in a **thread** under the triggering message (or under
+  the bot's first reply for slash commands). The live status message is edited
+  in place, exactly like Telegram.
+- Who may use the bot is controlled by `ALLOWED_SLACK_USER_IDS` /
+  `ALLOWED_SLACK_CHANNEL_IDS` (see [Security](security.md)).
+
 ## Inline buttons
+
+The buttons below work on both transports (Telegram inline keyboards, Slack
+Block Kit).
 
 ### Approval (interactive mode)
 
@@ -66,3 +99,8 @@ place, for example:
 Edits are throttled so the message updates about once per second rather than on
 every token. Each file edit is also posted as its own message with a unified
 diff (or, if too large for Telegram, as a `.diff` document).
+
+---
+
+<!-- prev-next -->
+[← Previous: Transports](./transports.md)  ·  [Next: Agents →](./agents.md)

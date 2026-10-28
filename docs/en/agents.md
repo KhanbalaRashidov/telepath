@@ -101,3 +101,8 @@ Telepath owns version control, and it runs non-interactively (`--message
   for it are refused with a clear message.
 
 See [Adding an agent](adding-an-agent.md) to write your own adapter.
+
+---
+
+<!-- prev-next -->
+[← Previous: Telegram commands](./telegram-commands.md)  ·  [Next: Permissions →](./permissions.md)

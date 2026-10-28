@@ -27,6 +27,24 @@
 
 `interactive` rejimində, `APPROVAL_TIMEOUT_SECONDS` (standart 120) ərzində heç kim Approve/Deny basmasa, sorğu **rədd edilir** və agentə bu bildirilir. Daha çox vaxt lazımdırsa timeout-u artırın, və ya soruşulmaq istəmirsinizsə `allowlist`/`auto` istifadə edin.
 
+## Slack: bot səssizdir
+
+Əgər `TRANSPORT=slack` (və ya `both`) təyin olunubsa, lakin heç nə baş vermirsə:
+
+- **Socket Mode söndürülüb / yanlış token.** Socket Mode aktiv olmalıdır, `SLACK_APP_TOKEN`
+  **tətbiq səviyyəli** token olmalıdır (`xapp-…`, scope `connections:write`), `SLACK_BOT_TOKEN` isə
+  **bot** token-i (`xoxb-…`) olmalıdır. Onları qarışdırmaq ən çox rast gəlinən səhvdir.
+- **Scope-lar çatışmır.** Sizə `app_mentions:read`, `chat:write`, `commands`, `files:write`,
+  `im:history`, `im:read`, `channels:history`, `groups:history` lazımdır. Scope-ları əlavə etdikdən
+  sonra tətbiqi **yenidən quraşdırın**.
+- **Bot dəvət olunmayıb.** Kanalda onu `/invite @YourApp` ilə dəvət edin; və ya sadəcə ona DM yazın.
+- **Hadisə abunələri.** `app_mention` və `message.im` *Event Subscriptions → bot events* altında
+  abunə olunmalıdır.
+- **Allowlist uyğunsuzluğu.** `ALLOWED_SLACK_USER_IDS` / `ALLOWED_SLACK_CHANNEL_IDS` təyin olunubsa,
+  istifadəçiniz və ya kanalınız siyahıda olmalıdır; əks halda sorğu nəzərə alınmır (xəbərdarlıq
+  loglanır). Bax: [Təhlükəsizlik](security.md).
+- **Diff-lər yüklənmir.** `.diff` yükləmə axını üçün `files:write` tələb olunur.
+
 ## Interactive məndən soruşmadı
 
 İnteraktiv təsdiq **yalnız Claude ilə** işləyir. gemini/codex/aider ilə `interactive` `allowlist`-ə keçir və cavab faktiki istifadə olunan rejimi bildirir. Canlı təsdiqlər üçün chat-ı `/use claude` ilə Claude-a keçirin.
@@ -46,3 +64,8 @@ Son sessiya id-si və onun layihə qovluğu **yaddaşda** saxlanılır və Telep
 ## Commit uğursuz oldu
 
 Əgər repozitoriyada git şəxsiyyəti yoxdursa, Telepath ehtiyat `Telepath <telepath@localhost>` şəxsiyyəti ilə commit edir ki, tapşırıq branch-ının commit-i yenə uğurlu olsun. Commit yenə də uğursuz olarsa, xəta yekun hesabatda göstərilir — repozitoriyanın git vəziyyətini və icazələrini yoxlayın.
+
+---
+
+<!-- prev-next -->
+[← Əvvəlki: Təhlükəsizlik](./security.md)  ·  [Növbəti: Tez-tez verilən suallar →](./faq.md)

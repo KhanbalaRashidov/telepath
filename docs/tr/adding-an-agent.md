@@ -109,3 +109,8 @@ Etkileşimli onayı yalnızca CLI'niz bir izin kancası sunuyorsa (Claude'un MCP
 ## Bayrakları önce doğrulayın
 
 CLI bayrakları sık sık değişir. Kodlamadan önce aracın `--help` çıktısını çalıştırın ve dokümanlarını okuyun; tahmin edilen bayraklara değil, **gerçek** mevcut arayüze göre uygulayın.
+
+---
+
+<!-- prev-next -->
+[← Önceki: Docker](./docker.md)  ·  [Sonraki: Güvenlik →](./security.md)

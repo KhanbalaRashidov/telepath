@@ -8,9 +8,18 @@ Telepath maşınınızda real kodlaşdırma agentlərini işlədir, ona görə e
 
 Telepath yalnız `ALLOWED_CHAT_IDS`-də siyahıya salınmış chat-larda hərəkət edir. Allowlist **hər yeniləmədə — mesajlarda və düymə basışlarında eyni cür** — hər şeydən əvvəl tətbiq olunur. Telepath ən azı bir icazəli chat ID-si olmadan **başlamaqdan imtina edir** və allowlist-də olmayan chat-ları səssizcə nəzərə almır. Bot token-inizi gizli saxlayın: onu bilən hər kəs botunuza mesaj yaza bilər, lakin yalnız allowlist-dəki chat-lara əməl olunur.
 
+## Slack allowlist
+
+Slack-də giriş `ALLOWED_SLACK_USER_IDS` və/və ya `ALLOWED_SLACK_CHANNEL_IDS` ilə idarə olunur
+(Telegram chat allowlist-indən ayrıdır). Tətiklənmiş **istifadəçi** user siyahısındadırsa **və ya**
+**kanal** channel siyahısındadırsa, sorğu qəbul olunur. Bu siyahılar ixtiyaridir və Telegram-dan
+fərqli olaraq — **hər ikisi boşdursa Telepath botun gördüyü hər kanalda hər istifadəçiyə icazə verir**
+və başlanğıcda xəbərdarlıq yazır. Şəxsi test iş sahəsindən kənar hər şey üçün ən azı bir siyahı təyin
+edin. `xoxb-`/`xapp-` token-lərini gizli saxlayın: onlar botun iş sahənizə girişini verir.
+
 ## Agentlər öz etimadnamələrindən istifadə edir
 
-Hər agent CLI-ı öz **öz** API açarı və ya login-i ilə autentifikasiya olunur; bu, agentin sənədlərinə uyğun olaraq host-da saxlanılır. Telepath bu etimadnamələri heç vaxt oxumur, saxlamır və ötürmür — o, yalnız CLI-ı işə salır. Telepath-ın özünün saxladığı yeganə sirr Telegram bot token-i və chat allowlist-idir.
+Hər agent CLI-ı öz **öz** API açarı və ya login-i ilə autentifikasiya olunur; bu, agentin sənədlərinə uyğun olaraq host-da saxlanılır. Telepath bu etimadnamələri heç vaxt oxumur, saxlamır və ötürmür — o, yalnız CLI-ı işə salır. Telepath-ın özünün saxladığı yeganə sirlər transport token-ləridir (Telegram bot token-i və/və ya Slack `xoxb-`/`xapp-` token-ləri) və allowlist-lərdir.
 
 ## `auto` (icazələri ötürmə) ehtiyatlılığı
 
@@ -35,4 +44,9 @@ Telepath bütün git-ə tək qorunan kod yolu ilə sahiblik edir; bu yol **heç 
 
 ## Şəbəkə vəziyyəti
 
-Telepath Telegram ilə **long-polling** (yalnız çıxış istiqamətində) üzərindən danışır, buna görə NAT arxasında, ictimai IP, webhook və ya daxil olan port olmadan işləyir. İnteraktiv təsdiq MCP serveri isə tək icra müddətində təsadüfi portda yalnız **loopback** (`127.0.0.1`)-a bağlanır.
+Telepath **yalnız çıxış istiqamətində** qoşulur — Telegram ilə **long-polling**, Slack ilə isə **Socket Mode** (botun açdığı WebSocket) üzərindən — buna görə NAT arxasında, ictimai IP, webhook və ya daxil olan port olmadan işləyir. İnteraktiv təsdiq MCP serveri isə tək icra müddətində təsadüfi portda yalnız **loopback** (`127.0.0.1`)-a bağlanır.
+
+---
+
+<!-- prev-next -->
+[← Əvvəlki: Agent əlavə etmək](./adding-an-agent.md)  ·  [Növbəti: Nasazlıqların aradan qaldırılması →](./troubleshooting.md)

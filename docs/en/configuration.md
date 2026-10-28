@@ -13,12 +13,18 @@ only fills values that are not already set in the real environment; run
 
 ## Reference
 
-Required variables are marked ✅. Values in parentheses are defaults.
+In the **Required** column, `telegram` / `slack` means the variable is required
+only when that transport is enabled; blank means optional.
 
 | Env var | CLI flag | Default | Required | Description |
 |---------|----------|---------|:--------:|-------------|
-| `TELEGRAM_BOT_TOKEN` | `--telegram-bot-token` | — | ✅ | Bot token from @BotFather. |
-| `ALLOWED_CHAT_IDS` | `--allowed-chat-ids` | — | ✅ | Comma-separated chat IDs allowed to use the bot. Telepath refuses to start without at least one. |
+| `TRANSPORT` | `--transport` | `telegram` | | `telegram` \| `slack` \| `both`. Which messaging front-end(s) to run. See [Transports](transports.md). |
+| `TELEGRAM_BOT_TOKEN` | `--telegram-bot-token` | — | telegram | Bot token from @BotFather. Required when `TRANSPORT` includes `telegram`. |
+| `ALLOWED_CHAT_IDS` | `--allowed-chat-ids` | — | telegram | Comma-separated Telegram chat IDs allowed to use the bot. Required (≥1) when `telegram` is enabled. |
+| `SLACK_BOT_TOKEN` | `--slack-bot-token` | — | slack | Slack bot token (`xoxb-…`). Required when `TRANSPORT` includes `slack`. |
+| `SLACK_APP_TOKEN` | `--slack-app-token` | — | slack | Slack app-level token (`xapp-…`) for Socket Mode. Required when `slack` is enabled. |
+| `ALLOWED_SLACK_USER_IDS` | `--allowed-slack-user-ids` | — | | Comma-separated Slack user IDs allowed to trigger tasks (optional). |
+| `ALLOWED_SLACK_CHANNEL_IDS` | `--allowed-slack-channel-ids` | — | | Comma-separated Slack channel IDs allowed to trigger tasks (optional). |
 | `PROJECTS_DIR` | `--projects-dir` | `.` | | Directory the agent works in. Must be a git repository for `per-task` branch mode. |
 | `DEFAULT_AGENT` | `--default-agent` | `claude` | | Default agent for a chat. Must be listed in `ENABLED_AGENTS`. |
 | `ENABLED_AGENTS` | `--enabled-agents` | `claude,gemini,codex,aider` | | Comma-separated enabled agents. |
@@ -68,3 +74,8 @@ BRANCH_COMMIT=true
 BRANCH_STASH_DIRTY=false
 LOG_LEVEL=info
 ```
+
+---
+
+<!-- prev-next -->
+[← Previous: Getting started](./getting-started.md)  ·  [Next: Transports →](./transports.md)

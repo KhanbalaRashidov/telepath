@@ -87,3 +87,8 @@ which mode was actually used.
 - Trusted, well-scoped tasks and you want speed → `auto`.
 - You want a safety net without babysitting → `allowlist`.
 - Sensitive repo or you want to see every risky step → `interactive` (Claude).
+
+---
+
+<!-- prev-next -->
+[← Previous: Agents](./agents.md)  ·  [Next: Branch workflow →](./branch-workflow.md)

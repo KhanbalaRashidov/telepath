@@ -12,12 +12,24 @@ else happens. Telepath **refuses to start** without at least one allowed chat ID
 and silently ignores any non-allowlisted chat. Keep your bot token secret; anyone
 with it can message your bot, but only allowlisted chats are ever acted on.
 
+## Slack allowlist
+
+On Slack, access is controlled by `ALLOWED_SLACK_USER_IDS` and/or
+`ALLOWED_SLACK_CHANNEL_IDS` (separate from the Telegram chat allowlist). A
+request is accepted if the triggering **user** is in the user list **or** the
+**channel** is in the channel list. These lists are optional, and — unlike
+Telegram — if **both are empty Telepath allows every user in every channel the
+bot can see** and logs a warning at startup. For anything beyond a private test
+workspace, set at least one list. Keep the `xoxb-`/`xapp-` tokens secret: they
+grant the bot's access to your workspace.
+
 ## Agents use their own credentials
 
 Each agent CLI authenticates with its **own** API key or login, stored on the
 host per that agent's documentation. Telepath never reads, stores, or transmits
 those credentials — it only spawns the CLI. The only secrets Telepath itself
-holds are the Telegram bot token and the chat allowlist.
+holds are its transport tokens (the Telegram bot token and/or the Slack
+`xoxb-`/`xapp-` tokens) and the allowlists.
 
 ## The `auto` (skip-permissions) caveat
 
@@ -51,7 +63,13 @@ local branch** that you choose to keep or delete. See
 
 ## Network posture
 
-Telepath talks to Telegram over **long-polling** (outbound only), so it works
-behind NAT with no public IP, webhook, or inbound port. The interactive-approval
-MCP server binds to **loopback only** (`127.0.0.1`) on a random port for the
-lifetime of a single run.
+Telepath connects **outbound only** — Telegram over **long-polling** and Slack
+over **Socket Mode** (a WebSocket the bot opens) — so it works behind NAT with
+no public IP, webhook, or inbound port. The interactive-approval MCP server
+binds to **loopback only** (`127.0.0.1`) on a random port for the lifetime of a
+single run.
+
+---
+
+<!-- prev-next -->
+[← Previous: Adding an agent](./adding-an-agent.md)  ·  [Next: Troubleshooting →](./troubleshooting.md)

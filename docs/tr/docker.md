@@ -47,3 +47,8 @@ Konteyner içinde `PROJECTS_DIR`, `/work/project` olarak ayarlanır; deponuz bur
 
 - **Telegram bot token'ı** ve **izinli sohbet kimlikleri** Telepath yapılandırmasıdır — bunları env dosyası veya `-e` ile geçirin.
 - **Ajan kimlik doğrulaması** (API anahtarları / oturumlar) Telepath'e değil, ajan CLI'lerine aittir. Bunları ajanların kendi ortam değişkenleriyle sağlayın veya yapılandırma dizinlerini bağlayın (örneğin `-v ~/.claude:/root/.claude`). Ayrıntılar için her ajanın dokümantasyonuna bakın.
+
+---
+
+<!-- prev-next -->
+[← Önceki: Mimari](./architecture.md)  ·  [Sonraki: Ajan ekleme →](./adding-an-agent.md)

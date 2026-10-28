@@ -8,9 +8,13 @@ Telepath gerçek kodlama ajanlarını makinenizde çalıştırır, bu yüzden g�
 
 Telepath yalnızca `ALLOWED_CHAT_IDS` içinde listelenen sohbetlerde işlem yapar. Allowlist, başka hiçbir şey yapılmadan önce **her güncellemede — mesajlarda ve düğme tıklamalarında aynı şekilde** uygulanır. Telepath, en az bir izinli sohbet kimliği olmadan **başlamayı reddeder** ve allowlist'te olmayan sohbetleri sessizce yok sayar. Bot token'ınızı gizli tutun; onu bilen herkes botunuza mesaj gönderebilir, ancak yalnızca allowlist'teki sohbetler üzerinde işlem yapılır.
 
+## Slack allowlist'i
+
+Slack'te erişim `ALLOWED_SLACK_USER_IDS` ve/veya `ALLOWED_SLACK_CHANNEL_IDS` ile kontrol edilir (Telegram sohbet allowlist'inden ayrıdır). Tetikleyen **kullanıcı** kullanıcı listesinde ya da **kanal** kanal listesinde varsa istek kabul edilir. Bu listeler isteğe bağlıdır; Telegram'dan farklı olarak, **ikisi de boşsa Telepath botun görebildiği her kanaldaki her kullanıcıya izin verir** ve başlangıçta bir uyarı kaydeder. Özel bir test çalışma alanının ötesinde kullanım için en az bir liste ayarlayın. `xoxb-`/`xapp-` token'larını gizli tutun: bunlar botun çalışma alanınıza erişimini sağlar.
+
 ## Ajanlar kendi kimlik bilgilerini kullanır
 
-Her ajan CLI'si, o ajanın dokümanlarına göre host üzerinde saklanan **kendi** API anahtarı veya oturumuyla kimlik doğrulaması yapar. Telepath bu kimlik bilgilerini asla okumaz, saklamaz veya iletmez; yalnızca CLI'yi başlatır. Telepath'in kendi tuttuğu tek gizli bilgiler Telegram bot token'ı ve sohbet allowlist'idir.
+Her ajan CLI'si, o ajanın dokümanlarına göre host üzerinde saklanan **kendi** API anahtarı veya oturumuyla kimlik doğrulaması yapar. Telepath bu kimlik bilgilerini asla okumaz, saklamaz veya iletmez; yalnızca CLI'yi başlatır. Telepath'in kendi tuttuğu tek gizli bilgiler transport token'larıdır (Telegram bot token'ı ve/veya Slack `xoxb-`/`xapp-` token'ları) ile allowlist'lerdir.
 
 ## `auto` (izinleri atlama) uyarısı
 
@@ -35,4 +39,9 @@ Telepath tüm git işlemlerinin sahibidir; bunu tek bir korumalı kod yolu üzer
 
 ## Ağ yapısı
 
-Telepath, Telegram ile **long-polling** (yalnızca giden bağlantı) üzerinden iletişim kurar; bu sayede genel IP, webhook veya gelen port olmadan NAT arkasında da çalışır. Etkileşimli onay MCP sunucusu, tek bir çalıştırmanın ömrü boyunca rastgele bir porta **yalnızca loopback'e** (`127.0.0.1`) bağlanır.
+Telepath yalnızca **giden** bağlantı kurar — Telegram ile **long-polling**, Slack ile **Socket Mode** (botun açtığı bir WebSocket) üzerinden — bu sayede genel IP, webhook veya gelen port olmadan NAT arkasında da çalışır. Etkileşimli onay MCP sunucusu, tek bir çalıştırmanın ömrü boyunca rastgele bir porta **yalnızca loopback'e** (`127.0.0.1`) bağlanır.
+
+---
+
+<!-- prev-next -->
+[← Önceki: Ajan ekleme](./adding-an-agent.md)  ·  [Sonraki: Sorun giderme →](./troubleshooting.md)

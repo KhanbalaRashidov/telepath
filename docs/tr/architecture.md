@@ -8,18 +8,36 @@ Bu kısa bir yönlendirmedir. Tam tasarım kök dizindeki [ARCHITECTURE.md](../.
 
 ```mermaid
 flowchart LR
-    TG["Telegram (you)"] -- "task / approvals" --> R["command router"]
-    R --> S["Session (per-chat state)"]
-    R --> G["GitWorkspace (per-task branch)"]
-    G --> A["Agent adapter<br/>claude · gemini · codex · aider"]
-    A -- "normalized Event stream" --> UI["Renderer (live status + diffs)"]
+    TG["Telegram"] --> T["Transport"]
+    SL["Slack"] --> T
+    T -- "InboundMessage" --> E["Engine (command router + task pipeline)"]
+    E --> S["Session store (per-conversation)"]
+    E --> G["GitWorkspace (per-task branch)"]
+    E --> A["Agent adapter<br/>claude · gemini · codex · aider"]
+    A -- "normalized Event stream" --> E
     A -. "ApprovalRequest" .-> P["Permission broker<br/>+ in-process MCP server"]
-    P -- "Approve / Deny buttons" --> TG
-    UI -- "status · diffs · result" --> TG
-    G -- "commit on branch · diff" --> UI
+    E -- "status · diffs · result" --> T
+    P -- "Approve / Deny buttons" --> T
+    T --> TG
+    T --> SL
 ```
 
-Telegram, git ve oturum katmanları **ajandan bağımsızdır**: yalnızca normalleştirilmiş `Event` akışını ve `Agent` arayüzünü tüketirler. Hiçbir ajana özgü tür yukarı doğru sızmaz.
+## Transport abstraction
+
+Mesajlaşma platformu `internal/transport` arayüzünün arkasında yer alır. Gelen
+mesajlarda bir transport, platform olaylarını bir `InboundMessage{Transport,
+ConversationID, ThreadID, UserID, Text}` yapısına ayrıştırır ve motora iletir.
+Giden mesajlarda motor, taşımadan bağımsız mesaj `Doc`'larından oluşturulan
+görev başına bir `Session` (durum / bildirim / dosya diff'i / onay / sonuç)
+yönetir; her transport bunları kendi işaretleme diliyle render eder (Telegram
+HTML + satır içi klavyeler, Slack mrkdwn + Block Kit) ve kendi dosya yükleme
+mekanizmasını yönetir.
+
+Motor, git, ajan, izin ve oturum katmanları **transport'tan ve ajandan
+bağımsızdır**: yalnızca `Event` akışını, `Agent` arayüzünü ve `Transport`/`Session`
+arayüzlerini kullanırlar. Çoklu transport desteği için tek durum değişikliği
+oturum anahtarıdır: çıplak bir sohbet kimliği yerine `transport:conversation`.
+Bkz. [Transport'lar](transports.md).
 
 ## Normalleştirilmiş olay modeli
 
@@ -39,7 +57,10 @@ Zengin ajanlar (Claude) tam seti üretir. Daha sade ajanlar `AssistantText` üre
 | `internal/agent/{claude,gemini,codex,aider}` | Ajan başına bir adaptör paketi. |
 | `internal/permission` | `policy` (mod → bayraklar), `broker` (bekle/çöz/zaman aşımı), `mcpserver` (onay aracı). |
 | `internal/git` | `guard` (güvenlik darboğazı), `git` (okuma işlemleri), `branch` (görev başına iş akışı). |
-| `internal/telegram` | Bot, komutlar, geri çağrılar, klavye, renderer, throttle. |
+| `internal/transport` | Platform soyutlaması: `Transport`/`Session`/`Router` arayüzleri, mesaj `Doc` modeli, ortak durum render'ı ve throttle. |
+| `internal/engine` | Transport'tan bağımsız komut yönlendirme + görev pipeline'ı (`Router`'ı uygular). |
+| `internal/telegram` | Telegram transport'u: long-polling, HTML render, satır içi klavyeler. |
+| `internal/slack` | Slack transport'u: Socket Mode, mrkdwn render, Block Kit, harici dosya yükleme. |
 | `internal/session` | `Store` arayüzü arkasında sohbet başına durum (v1'de bellek içi). |
 | `internal/logx` | Yapılandırılmış günlükleme (slog). |
 
@@ -54,3 +75,8 @@ Tüm sohbetler tek bir `PROJECTS_DIR` çalışma ağacını paylaşır ve bir gi
 ## Platformlar arası
 
 İkili dosyalar `exec.LookPath` ile tespit edilir (Windows'ta `.exe`/`PATHEXT` ile). Ajanlar kendi süreç grubunda başlatılır ve `/cancel` komutunda tüm ağaç olarak sonlandırılır (Windows'ta `taskkill /F /T`; Unix'te süreç grubu `SIGKILL`).
+
+---
+
+<!-- prev-next -->
+[← Önceki: Dal iş akışı](./branch-workflow.md)  ·  [Sonraki: Docker →](./docker.md)

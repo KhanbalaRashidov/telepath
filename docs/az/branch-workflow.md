@@ -49,3 +49,8 @@ Hər git əmri tək qoruyucudan (`internal/git/guard.go`) keçir və bunları **
 - **Keep branch** onu nəzərdən keçirmək üçün saxlayır.
 - **Delete branch & restore base** tapşırıq branch-ının dəyişikliklərini ləğv edir, baza branch-ını yenidən checkout edir və tapşırıq branch-ını silir. (Tapşırıq işləyərkən rədd edilir — əvvəlcə `/cancel`.)
 - `/branches` istənilən vaxt mövcud `telepath/*` branch-larını siyahılayır.
+
+---
+
+<!-- prev-next -->
+[← Əvvəlki: İcazələr](./permissions.md)  ·  [Növbəti: Arxitektura →](./architecture.md)

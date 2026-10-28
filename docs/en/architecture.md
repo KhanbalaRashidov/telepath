@@ -9,20 +9,35 @@ This is a short orientation. The full design lives in the root
 
 ```mermaid
 flowchart LR
-    TG["Telegram (you)"] -- "task / approvals" --> R["command router"]
-    R --> S["Session (per-chat state)"]
-    R --> G["GitWorkspace (per-task branch)"]
-    G --> A["Agent adapter<br/>claude · gemini · codex · aider"]
-    A -- "normalized Event stream" --> UI["Renderer (live status + diffs)"]
+    TG["Telegram"] --> T["Transport"]
+    SL["Slack"] --> T
+    T -- "InboundMessage" --> E["Engine (command router + task pipeline)"]
+    E --> S["Session store (per-conversation)"]
+    E --> G["GitWorkspace (per-task branch)"]
+    E --> A["Agent adapter<br/>claude · gemini · codex · aider"]
+    A -- "normalized Event stream" --> E
     A -. "ApprovalRequest" .-> P["Permission broker<br/>+ in-process MCP server"]
-    P -- "Approve / Deny buttons" --> TG
-    UI -- "status · diffs · result" --> TG
-    G -- "commit on branch · diff" --> UI
+    E -- "status · diffs · result" --> T
+    P -- "Approve / Deny buttons" --> T
+    T --> TG
+    T --> SL
 ```
 
-The Telegram, git, and session layers are **agent-independent**: they consume
-only the normalized `Event` stream and the `Agent` interface. No agent-specific
-type leaks upward.
+## Transport abstraction
+
+The messaging platform sits behind the `internal/transport` interface. Inbound,
+a transport parses platform events into an `InboundMessage{Transport,
+ConversationID, ThreadID, UserID, Text}` and hands it to the engine. Outbound,
+the engine drives a per-task `Session` (status / notice / file-diff / approval /
+result) built from transport-agnostic message `Doc`s; each transport renders
+those in its own markup (Telegram HTML + inline keyboards, Slack mrkdwn + Block
+Kit) and owns its own file-upload mechanics.
+
+The engine, git, agent, permission, and session layers are **transport- and
+agent-independent**: they consume only the `Event` stream, the `Agent`
+interface, and the `Transport`/`Session` interfaces. The only state change for
+multi-transport support is the session key: `transport:conversation` instead of
+a bare chat id. See [Transports](transports.md).
 
 ## Normalized event model
 
@@ -46,8 +61,11 @@ plus the git layer's end-of-run diff, so file changes still show up even without
 | `internal/agent/{claude,gemini,codex,aider}` | One adapter package per agent. |
 | `internal/permission` | `policy` (mode → flags), `broker` (await/resolve/timeout), `mcpserver` (approval tool). |
 | `internal/git` | `guard` (the safety choke point), `git` (read ops), `branch` (per-task workflow). |
-| `internal/telegram` | Bot, commands, callbacks, keyboard, renderer, throttle. |
-| `internal/session` | Per-chat state behind a `Store` interface (in-memory in v1). |
+| `internal/transport` | Platform abstraction: `Transport`/`Session`/`Router` interfaces, the message `Doc` model, shared status rendering, and throttling. |
+| `internal/engine` | Transport-agnostic command dispatch + task pipeline (implements `Router`). |
+| `internal/telegram` | Telegram transport: long-polling, HTML rendering, inline keyboards. |
+| `internal/slack` | Slack transport: Socket Mode, mrkdwn rendering, Block Kit, external file upload. |
+| `internal/session` | Per-conversation state behind a `Store` interface (in-memory in v1). |
 | `internal/logx` | Structured logging (slog). |
 
 ## MCP permission server
@@ -72,3 +90,8 @@ arrives while the workspace is busy gets a short "try again" reply.
 Binaries are detected with `exec.LookPath` (handles `.exe`/`PATHEXT` on Windows).
 Agents are spawned in their own process group and killed as a whole tree on
 `/cancel` (`taskkill /F /T` on Windows; process-group `SIGKILL` on Unix).
+
+---
+
+<!-- prev-next -->
+[← Previous: Branch workflow](./branch-workflow.md)  ·  [Next: Docker →](./docker.md)

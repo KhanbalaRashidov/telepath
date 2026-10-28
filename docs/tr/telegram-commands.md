@@ -26,7 +26,33 @@ Notlar:
 - Sohbet başına yalnızca **bir görev** çalışır. Tüm sohbetler tek bir çalışma ağacını paylaştığı için görevler **genel olarak sıraya alınır**. Çalışma alanı meşgulse kısa bir "tekrar deneyin" yanıtı alırsınız.
 - `/resume` yalnızca devam ettirme yeteneğini bildiren ajanlarla çalışır — şu anda **Claude**. `auto` izin modunda çalışır ve proje dizini, Telepath yeniden başlarsa kaybolan bellek içi bir haritadan geri yüklenir.
 
+## Slack komutları
+
+Slack'te yukarıdaki her komut, tek `/telepath` slash komutunun bir alt komutudur; görevler botu etiketleyerek ya da ona DM göndererek tetiklenir. Eşleme Telegram ile 1:1'dir:
+
+| Telegram | Slack |
+|----------|-------|
+| `/help` | `/telepath help` |
+| `/agents` | `/telepath agents` |
+| `/use <agent>` | `/telepath use <agent>` |
+| `/perm <mode>` | `/telepath perm <mode>` |
+| `/branch <mode>` | `/telepath branch <mode>` |
+| `/branches` | `/telepath branches` |
+| `/status` | `/telepath status` |
+| `/cancel` | `/telepath cancel` |
+| `/resume <text>` | `/telepath resume <text>` |
+| `/<agent> <task>` | `/telepath <agent> <task>` veya `@Telepath <agent>: <task>` |
+| *(düz mesaj)* | `@Telepath <task>` veya doğrudan mesaj |
+
+Notlar:
+
+- Bilinen bir komut ya da ajan adı olmayan `/telepath` alt komutu, varsayılan ajan görevi olarak değerlendirilir (ör. `/telepath fix the flaky test`).
+- Görev çıktısı, tetikleyen mesajın altındaki bir **thread** içinde gönderilir (slash komutlarında ise botun ilk yanıtının altında). Canlı durum mesajı, tıpkı Telegram'da olduğu gibi yerinde düzenlenir.
+- Botu kimlerin kullanabileceği `ALLOWED_SLACK_USER_IDS` / `ALLOWED_SLACK_CHANNEL_IDS` ile kontrol edilir (bkz. [Güvenlik](security.md)).
+
 ## Satır içi düğmeler
+
+Aşağıdaki düğmeler her iki transport'ta da çalışır (Telegram satır içi klavyeleri, Slack Block Kit).
 
 ### Onay (etkileşimli mod)
 
@@ -53,3 +79,8 @@ Bir çalıştırma sırasında Telepath, tek bir **durum mesajını** yerinde d�
 ```
 
 Düzenlemeler her token'da değil, mesajın yaklaşık saniyede bir güncellenmesi için sınırlandırılır. Her dosya düzenlemesi, birleşik bir diff içeren ayrı bir mesaj olarak da gönderilir (Telegram için çok büyükse `.diff` belgesi olarak).
+
+---
+
+<!-- prev-next -->
+[← Önceki: Taşıyıcılar](./transports.md)  ·  [Sonraki: Ajanlar →](./agents.md)

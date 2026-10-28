@@ -19,8 +19,16 @@ import (
 
 // Config is the fully-resolved runtime configuration.
 type Config struct {
-	BotToken         string
-	AllowedChatIDs   []int64
+	Transport      string // telegram | slack | both
+	BotToken       string // Telegram bot token
+	AllowedChatIDs []int64
+
+	// Slack settings (used when Transport includes slack).
+	SlackBotToken          string
+	SlackAppToken          string
+	AllowedSlackUserIDs    []string
+	AllowedSlackChannelIDs []string
+
 	ProjectsDir      string
 	DefaultAgent     string
 	EnabledAgents    []string
@@ -50,6 +58,7 @@ type Result struct {
 
 func defaults() *Config {
 	return &Config{
+		Transport:        "telegram",
 		ProjectsDir:      ".",
 		DefaultAgent:     "claude",
 		EnabledAgents:    []string{"claude", "gemini", "codex", "aider"},
@@ -73,6 +82,11 @@ func Load(args []string) (*Result, error) {
 	fs.SetOutput(io.Discard) // we print usage ourselves
 
 	var (
+		fTransport  = fs.String("transport", "", "telegram|slack|both (env TRANSPORT)")
+		fSlackBot   = fs.String("slack-bot-token", "", "Slack bot token xoxb- (env SLACK_BOT_TOKEN)")
+		fSlackApp   = fs.String("slack-app-token", "", "Slack app-level token xapp- (env SLACK_APP_TOKEN)")
+		fSlackUsers = fs.String("allowed-slack-user-ids", "", "comma-separated allowed Slack user IDs (env ALLOWED_SLACK_USER_IDS)")
+		fSlackChans = fs.String("allowed-slack-channel-ids", "", "comma-separated allowed Slack channel IDs (env ALLOWED_SLACK_CHANNEL_IDS)")
 		fToken      = fs.String("telegram-bot-token", "", "Telegram bot token (env TELEGRAM_BOT_TOKEN)")
 		fChats      = fs.String("allowed-chat-ids", "", "comma-separated allowed chat IDs (env ALLOWED_CHAT_IDS)")
 		fProjects   = fs.String("projects-dir", "", "projects directory the agent works in (env PROJECTS_DIR)")
@@ -127,8 +141,23 @@ func Load(args []string) (*Result, error) {
 	}
 
 	// Apply env / .env layer over defaults.
+	if v := get("TRANSPORT"); v != "" {
+		cfg.Transport = strings.ToLower(strings.TrimSpace(v))
+	}
 	if v := get("TELEGRAM_BOT_TOKEN"); v != "" {
 		cfg.BotToken = v
+	}
+	if v := get("SLACK_BOT_TOKEN"); v != "" {
+		cfg.SlackBotToken = v
+	}
+	if v := get("SLACK_APP_TOKEN"); v != "" {
+		cfg.SlackAppToken = v
+	}
+	if v := get("ALLOWED_SLACK_USER_IDS"); v != "" {
+		cfg.AllowedSlackUserIDs = splitCSV(v)
+	}
+	if v := get("ALLOWED_SLACK_CHANNEL_IDS"); v != "" {
+		cfg.AllowedSlackChannelIDs = splitCSV(v)
 	}
 	if v := get("ALLOWED_CHAT_IDS"); v != "" {
 		ids, err := parseChatIDs(v)
@@ -200,8 +229,23 @@ func Load(args []string) (*Result, error) {
 	// Flags are highest priority: apply only those explicitly set.
 	set := map[string]bool{}
 	fs.Visit(func(f *flag.Flag) { set[f.Name] = true })
+	if set["transport"] {
+		cfg.Transport = strings.ToLower(strings.TrimSpace(*fTransport))
+	}
 	if set["telegram-bot-token"] {
 		cfg.BotToken = *fToken
+	}
+	if set["slack-bot-token"] {
+		cfg.SlackBotToken = *fSlackBot
+	}
+	if set["slack-app-token"] {
+		cfg.SlackAppToken = *fSlackApp
+	}
+	if set["allowed-slack-user-ids"] {
+		cfg.AllowedSlackUserIDs = splitCSV(*fSlackUsers)
+	}
+	if set["allowed-slack-channel-ids"] {
+		cfg.AllowedSlackChannelIDs = splitCSV(*fSlackChans)
 	}
 	if set["allowed-chat-ids"] {
 		ids, err := parseChatIDs(*fChats)
@@ -265,13 +309,37 @@ func Load(args []string) (*Result, error) {
 	return &Result{Config: cfg, Usage: usage}, nil
 }
 
+// TelegramEnabled reports whether the Telegram transport should run.
+func (c *Config) TelegramEnabled() bool {
+	return c.Transport == "telegram" || c.Transport == "both"
+}
+
+// SlackEnabled reports whether the Slack transport should run.
+func (c *Config) SlackEnabled() bool {
+	return c.Transport == "slack" || c.Transport == "both"
+}
+
 // Validate checks the resolved config and returns the first problem found.
 func (c *Config) Validate() error {
-	if strings.TrimSpace(c.BotToken) == "" {
-		return errors.New("TELEGRAM_BOT_TOKEN is required (set it in the environment, .env, or --telegram-bot-token)")
+	if !c.TelegramEnabled() && !c.SlackEnabled() {
+		return fmt.Errorf("TRANSPORT %q is invalid (want telegram|slack|both)", c.Transport)
 	}
-	if len(c.AllowedChatIDs) == 0 {
-		return errors.New("ALLOWED_CHAT_IDS is required: Telepath refuses to serve any chat until you allowlist at least one chat ID")
+	// Required tokens are validated only for the enabled transports.
+	if c.TelegramEnabled() {
+		if strings.TrimSpace(c.BotToken) == "" {
+			return errors.New("TELEGRAM_BOT_TOKEN is required when TRANSPORT includes telegram (set it in the environment, .env, or --telegram-bot-token)")
+		}
+		if len(c.AllowedChatIDs) == 0 {
+			return errors.New("ALLOWED_CHAT_IDS is required: Telepath refuses to serve any Telegram chat until you allowlist at least one chat ID")
+		}
+	}
+	if c.SlackEnabled() {
+		if strings.TrimSpace(c.SlackBotToken) == "" {
+			return errors.New("SLACK_BOT_TOKEN (xoxb-) is required when TRANSPORT includes slack")
+		}
+		if strings.TrimSpace(c.SlackAppToken) == "" {
+			return errors.New("SLACK_APP_TOKEN (xapp-) is required when TRANSPORT includes slack (Socket Mode app-level token)")
+		}
 	}
 	if !c.PermissionMode.Valid() {
 		return fmt.Errorf("PERMISSION_MODE %q is invalid (want auto|allowlist|interactive)", c.PermissionMode)

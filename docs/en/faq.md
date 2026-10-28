@@ -15,13 +15,19 @@ merge/push yourself. With `BRANCH_MODE=off` it doesn't even commit.
 Only **Claude Code** (via its MCP permission-prompt tool). For gemini, codex, and
 aider, `interactive` automatically falls back to `allowlist`.
 
+**Does it work with Slack, or only Telegram?**
+Both. Set `TRANSPORT=slack` (or `both`) and provide the `xoxb-`/`xapp-` tokens.
+Trigger tasks by mentioning the bot, DMing it, or using `/telepath …`. See
+[Transports](transports.md).
+
 **Can it run multiple tasks at once?**
-No. All chats share one `PROJECTS_DIR` working tree, so tasks are **serialized**
-— one at a time overall, one per chat. See [Troubleshooting](troubleshooting.md).
+No. All conversations (Telegram chats and Slack channels) share one
+`PROJECTS_DIR` working tree, so tasks are **serialized** — one at a time overall,
+one per conversation. See [Troubleshooting](troubleshooting.md).
 
 **Does it work behind NAT / without a public IP?**
-Yes. It uses Telegram **long-polling** (outbound only) — no webhook, no inbound
-port, no public IP required.
+Yes. Telegram uses **long-polling** and Slack uses **Socket Mode** — both are
+outbound only, with no webhook, inbound port, or public IP required.
 
 **Where do my agent API keys go?**
 They stay with the agent CLIs on your host, configured per each agent's own docs.
@@ -48,3 +54,8 @@ Pull the latest binary from Releases, or rebuild from source
 **What are the costs?**
 Telepath is free (MIT). You pay only for whatever the underlying agent/model
 usage costs under your own agent accounts.
+
+---
+
+<!-- prev-next -->
+[← Previous: Troubleshooting](./troubleshooting.md)

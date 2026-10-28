@@ -10,12 +10,17 @@ Her ortam değişkeninin bir `--kebab-case` bayrak karşılığı vardır. `.env
 
 ## Referans
 
-Zorunlu değişkenler ✅ ile işaretlenmiştir. Parantez içindeki değerler varsayılandır.
+**Zorunlu** (Required) sütununda `telegram` / `slack`, değişkenin yalnızca ilgili transport etkinleştirildiğinde zorunlu olduğu anlamına gelir; boş bırakılan değerler isteğe bağlıdır.
 
 | Ortam değişkeni | CLI bayrağı | Varsayılan | Zorunlu | Açıklama |
 |-----------------|-------------|------------|:-------:|----------|
-| `TELEGRAM_BOT_TOKEN` | `--telegram-bot-token` | — | ✅ | @BotFather'dan alınan bot token'ı. |
-| `ALLOWED_CHAT_IDS` | `--allowed-chat-ids` | — | ✅ | Bota erişebilecek, virgülle ayrılmış sohbet kimlikleri. En az biri olmadan Telepath başlamayı reddeder. |
+| `TRANSPORT` | `--transport` | `telegram` | | `telegram` \| `slack` \| `both`. Hangi mesajlaşma ön yüzlerinin çalıştırılacağı. Bkz. [Transport'lar](transports.md). |
+| `TELEGRAM_BOT_TOKEN` | `--telegram-bot-token` | — | telegram | @BotFather'dan alınan bot token'ı. `TRANSPORT` `telegram` içerdiğinde zorunludur. |
+| `ALLOWED_CHAT_IDS` | `--allowed-chat-ids` | — | telegram | Bota erişebilecek, virgülle ayrılmış Telegram sohbet kimlikleri. `telegram` etkinken zorunludur (en az 1). |
+| `SLACK_BOT_TOKEN` | `--slack-bot-token` | — | slack | Slack bot token'ı (`xoxb-…`). `TRANSPORT` `slack` içerdiğinde zorunludur. |
+| `SLACK_APP_TOKEN` | `--slack-app-token` | — | slack | Socket Mode için Slack uygulama düzeyinde token'ı (`xapp-…`). `slack` etkinken zorunludur. |
+| `ALLOWED_SLACK_USER_IDS` | `--allowed-slack-user-ids` | — | | Görev tetikleyebilecek, virgülle ayrılmış Slack kullanıcı kimlikleri (isteğe bağlı). |
+| `ALLOWED_SLACK_CHANNEL_IDS` | `--allowed-slack-channel-ids` | — | | Görev tetikleyebilecek, virgülle ayrılmış Slack kanal kimlikleri (isteğe bağlı). |
 | `PROJECTS_DIR` | `--projects-dir` | `.` | | Ajanın çalıştığı klasör. `per-task` branch modu için bir git deposu olmalıdır. |
 | `DEFAULT_AGENT` | `--default-agent` | `claude` | | Bir sohbet için varsayılan ajan. `ENABLED_AGENTS` içinde listelenmiş olmalıdır. |
 | `ENABLED_AGENTS` | `--enabled-agents` | `claude,gemini,codex,aider` | | Virgülle ayrılmış, etkin ajanlar. |
@@ -60,3 +65,8 @@ BRANCH_COMMIT=true
 BRANCH_STASH_DIRTY=false
 LOG_LEVEL=info
 ```
+
+---
+
+<!-- prev-next -->
+[← Önceki: Başlangıç](./getting-started.md)  ·  [Sonraki: Taşıyıcılar →](./transports.md)

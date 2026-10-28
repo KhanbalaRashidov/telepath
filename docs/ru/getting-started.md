@@ -112,5 +112,56 @@ Telepath создаёт ветку вида `telepath/add-a-health-endpoint-2601
 ветку и в завершение отправляет `git diff --stat` с полным диффом в виде документа `.diff`
 и кнопки **Keep branch / Delete branch & restore base**.
 
-Далее прочитайте [Команды Telegram](telegram-commands.md),
-[Разрешения](permissions.md) и [Рабочий процесс с ветками](branch-workflow.md).
+## Настройка Slack (необязательно)
+
+Предпочитаете Slack или хотите оба транспорта? Telepath также работает через Slack по
+**Socket Mode** (публичный URL не нужен). Сравнение см. в разделе [Транспорты](transports.md).
+
+1. **Создайте Slack-приложение** на <https://api.slack.com/apps> → *Create New App* →
+   *From scratch*. Укажите название и рабочее пространство.
+2. **Включите Socket Mode**: *Settings → Socket Mode → Enable*. Это создаст **токен уровня
+   приложения** (`xapp-…`) с областью `connections:write` — скопируйте его.
+3. **Добавьте scope-ы бота**: *Features → OAuth & Permissions → Scopes → Bot Token
+   Scopes*, добавьте: `app_mentions:read`, `chat:write`, `commands`, `files:write`,
+   `im:history`, `im:read`, `channels:history`, `groups:history`.
+4. **Создайте slash-команду**: *Features → Slash Commands → Create New
+   Command* → `/telepath` (описание любое; Request URL в Socket Mode игнорируется, но
+   Slack требует значение — подойдёт любой placeholder).
+5. **Подпишитесь на события**: *Features → Event Subscriptions → Enable*, затем в
+   *Subscribe to bot events* добавьте `app_mention` и `message.im`.
+6. **Установите в рабочее пространство**: *OAuth & Permissions → Install to Workspace*.
+   Скопируйте **Bot User OAuth Token** (`xoxb-…`).
+7. **Пригласите бота** в любой канал, где хотите его использовать (`/invite @YourApp`),
+   или просто напишите ему в личные сообщения.
+8. **Найдите ID** для allowlist: ID пользователя (профиль → *Copy member ID*,
+   `U…`) и/или ID канала (детали канала, `C…`).
+
+Минимальный `.env` для Slack:
+
+```dotenv
+TRANSPORT=slack
+SLACK_BOT_TOKEN=xoxb-your-bot-token
+SLACK_APP_TOKEN=xapp-your-app-token
+ALLOWED_SLACK_USER_IDS=U0123456789
+PROJECTS_DIR=/path/to/your/git/repo
+```
+
+Запустите `./telepath`, затем в Slack упомяните бота или используйте slash-команду:
+
+```
+@Telepath add a /health endpoint that returns 200 OK and a test for it
+/telepath help
+/telepath claude fix the null check in parser.go
+```
+
+Чтобы запустить **оба** транспорта одновременно, установите `TRANSPORT=both` и укажите
+учётные данные и для Telegram, и для Slack.
+
+Далее прочитайте [Транспорты](transports.md),
+[Команды Telegram](telegram-commands.md), [Разрешения](permissions.md) и
+[Рабочий процесс с ветками](branch-workflow.md).
+
+---
+
+<!-- prev-next -->
+[← Назад: Главная](./index.md)  ·  [Вперёд: Конфигурация →](./configuration.md)

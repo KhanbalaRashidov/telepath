@@ -49,3 +49,8 @@ Her git komutu tek bir koruma noktasından (`internal/git/guard.go`) geçer ve �
 - **Keep branch** branch'i incelemeniz için bırakır.
 - **Delete branch & restore base** görev branch'indeki değişiklikleri atar, temel branch'i yeniden checkout eder ve görev branch'ini siler. (Bir görev çalışırken reddedilir — önce `/cancel` kullanın.)
 - `/branches` mevcut `telepath/*` branch'lerini istediğiniz zaman listeler.
+
+---
+
+<!-- prev-next -->
+[← Önceki: İzinler](./permissions.md)  ·  [Sonraki: Mimari →](./architecture.md)

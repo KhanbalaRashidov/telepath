@@ -15,9 +15,11 @@ import (
 	"github.com/telepath/telepath/internal/agent/codex"
 	"github.com/telepath/telepath/internal/agent/gemini"
 	"github.com/telepath/telepath/internal/config"
+	"github.com/telepath/telepath/internal/engine"
 	"github.com/telepath/telepath/internal/logx"
 	"github.com/telepath/telepath/internal/permission"
 	"github.com/telepath/telepath/internal/session"
+	"github.com/telepath/telepath/internal/slack"
 	"github.com/telepath/telepath/internal/telegram"
 )
 
@@ -81,15 +83,29 @@ func run(args []string) error {
 	})
 	broker := permission.NewBroker(cfg.ApprovalTimeout)
 
-	b, err := telegram.New(cfg, reg, store, broker, log, version)
-	if err != nil {
-		return fmt.Errorf("telegram init: %w", err)
+	eng := engine.New(cfg, reg, store, broker, log, version)
+
+	if cfg.TelegramEnabled() {
+		tg, err := telegram.New(cfg.BotToken, cfg.AllowedChatIDs, eng, broker, log)
+		if err != nil {
+			return fmt.Errorf("telegram init: %w", err)
+		}
+		eng.AddTransport(tg)
+	}
+	if cfg.SlackEnabled() {
+		sl, err := slack.New(cfg.SlackBotToken, cfg.SlackAppToken, cfg.AllowedSlackUserIDs, cfg.AllowedSlackChannelIDs, eng, broker, log)
+		if err != nil {
+			return fmt.Errorf("slack init: %w", err)
+		}
+		eng.AddTransport(sl)
 	}
 
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
-	b.Run(ctx)
+	if err := eng.Run(ctx); err != nil {
+		return err
+	}
 	log.Info("telepath stopped")
 	return nil
 }

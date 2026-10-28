@@ -101,3 +101,8 @@ aider --message "<task>" --no-stream [--model <model>] \
   для него будут отклоняться с понятным сообщением.
 
 Чтобы написать собственный адаптер, см. [Добавление агента](adding-an-agent.md).
+
+---
+
+<!-- prev-next -->
+[← Назад: Команды Telegram](./telegram-commands.md)  ·  [Вперёд: Разрешения →](./permissions.md)

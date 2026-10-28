@@ -39,6 +39,27 @@ In `interactive` mode, if no one taps Approve/Deny within
 is told so. Increase the timeout if you need more time, or use `allowlist`/`auto`
 if you don't want to be prompted.
 
+## Slack: the bot is silent
+
+If `TRANSPORT=slack` (or `both`) but nothing happens:
+
+- **Socket Mode off / wrong token.** Socket Mode must be enabled, and
+  `SLACK_APP_TOKEN` must be the **app-level** token (`xapp-…`, scope
+  `connections:write`), while `SLACK_BOT_TOKEN` is the **bot** token (`xoxb-…`).
+  Swapping them is the most common mistake.
+- **Missing scopes.** You need `app_mentions:read`, `chat:write`, `commands`,
+  `files:write`, `im:history`, `im:read`, `channels:history`,
+  `groups:history`. After adding scopes, **reinstall** the app.
+- **Bot not invited.** In a channel, invite it with `/invite @YourApp`; or just
+  DM it.
+- **Event subscriptions.** `app_mention` and `message.im` must be subscribed
+  under *Event Subscriptions → bot events*.
+- **Allowlist mismatch.** If `ALLOWED_SLACK_USER_IDS` /
+  `ALLOWED_SLACK_CHANNEL_IDS` are set, your user or channel must be listed;
+  otherwise the request is ignored (a warning is logged). See
+  [Security](security.md).
+- **Diffs not uploading.** `files:write` is required for the `.diff` upload flow.
+
 ## Interactive didn't prompt me
 
 Interactive approval works **only with Claude**. With gemini/codex/aider,
@@ -69,3 +90,8 @@ If the repo has no git identity, Telepath commits with a fallback
 `Telepath <telepath@localhost>` identity so the task-branch commit still
 succeeds. If a commit still fails, the error is shown in the final report —
 check the repo's git state and permissions.
+
+---
+
+<!-- prev-next -->
+[← Previous: Security](./security.md)  ·  [Next: FAQ →](./faq.md)

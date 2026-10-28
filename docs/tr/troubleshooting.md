@@ -27,6 +27,17 @@ Daha fazla ayrıntı için `LOG_LEVEL=debug` ayarlayın. Aşağıda yaygın hata
 
 `interactive` modunda, `APPROVAL_TIMEOUT_SECONDS` (varsayılan 120) içinde kimse Approve/Deny düğmesine dokunmazsa istek **reddedilir** ve ajana bu bildirilir. Daha fazla süreye ihtiyacınız varsa zaman aşımını artırın; istem almak istemiyorsanız `allowlist`/`auto` kullanın.
 
+## Slack: bot sessiz
+
+`TRANSPORT=slack` (veya `both`) ayarlı olduğu halde hiçbir şey olmuyorsa:
+
+- **Socket Mode kapalı / yanlış token.** Socket Mode etkin olmalı; `SLACK_APP_TOKEN` **uygulama düzeyindeki** token (`xapp-…`, kapsam `connections:write`) olmalı, `SLACK_BOT_TOKEN` ise **bot** token'ı (`xoxb-…`) olmalıdır. İkisinin yer değiştirmesi en yaygın hatadır.
+- **Eksik kapsamlar.** `app_mentions:read`, `chat:write`, `commands`, `files:write`, `im:history`, `im:read`, `channels:history`, `groups:history` gerekir. Kapsamları ekledikten sonra uygulamayı **yeniden yükleyin**.
+- **Bot davet edilmemiş.** Bir kanalda `/invite @YourApp` ile davet edin; ya da doğrudan DM gönderin.
+- **Olay abonelikleri.** `app_mention` ve `message.im`, *Event Subscriptions → bot events* altında abone olunmuş olmalıdır.
+- **Allowlist uyuşmazlığı.** `ALLOWED_SLACK_USER_IDS` / `ALLOWED_SLACK_CHANNEL_IDS` ayarlıysa, kullanıcınız ya da kanalınız listede olmalıdır; aksi halde istek yok sayılır (bir uyarı kaydedilir). Bkz. [Güvenlik](security.md).
+- **Diff'ler yüklenmiyor.** `.diff` yükleme akışı için `files:write` gereklidir.
+
 ## Etkileşimli mod bana sormadı
 
 Etkileşimli onay **yalnızca Claude ile** çalışır. gemini/codex/aider ile `interactive` `allowlist`'e geri döner ve yanıt, gerçekte kullanılan modu belirtir. Canlı onaylar için sohbeti `/use claude` ile Claude'a geçirin.
@@ -46,3 +57,8 @@ Son oturum kimliği ve proje dizini **bellekte** tutulur ve Telepath yeniden ba�
 ## Commit başarısız
 
 Repo bir git kimliğine sahip değilse Telepath, görev branch'indeki commit'in başarılı olması için `Telepath <telepath@localhost>` yedek kimliğiyle commit yapar. Yine de commit başarısız olursa hata nihai raporda gösterilir — deponun git durumunu ve izinlerini kontrol edin.
+
+---
+
+<!-- prev-next -->
+[← Önceki: Güvenlik](./security.md)  ·  [Sonraki: SSS →](./faq.md)

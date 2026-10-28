@@ -10,7 +10,8 @@ Telepath, Telegram'dan gönderdiğiniz kodlama görevlerini kendi makinenizde ç
 |-------|--------|
 | [Başlarken](getting-started.md) | Ön koşullar, işletim sistemine göre kurulum, bot oluşturma, ilk çalıştırma, ilk görev |
 | [Yapılandırma](configuration.md) | Her ortam değişkeni ve CLI bayrağı; varsayılanlar ve öncelik sırası |
-| [Telegram komutları](telegram-commands.md) | Her komut ve satır içi düğme, örneklerle |
+| [Transport'lar](transports.md) | Telegram, Slack veya ikisi birden; nasıl seçilir; genel IP gerektirmeme özelliği |
+| [Telegram komutları](telegram-commands.md) | Her komut ve satır içi düğme (Telegram ve Slack), örneklerle |
 | [Ajanlar](agents.md) | Çoklu ajan modeli, yetenek matrisi ve tam CLI çağrıları |
 | [İzinler](permissions.md) | `auto` / `allowlist` / `interactive` ve canlı onayın çalışma şekli |
 | [Branch iş akışı](branch-workflow.md) | Göreve özel branch'ler, commit'ler, korumalar ve temizlik |
@@ -24,3 +25,8 @@ Telepath, Telegram'dan gönderdiğiniz kodlama görevlerini kendi makinenizde ç
 ## Akılda tutmanız gereken tek şey
 
 **Telepath asla push yapmaz, asla merge yapmaz ve `main`/`master` dalına ya da uzak depoya asla dokunmaz.** Bir görevin yapabileceği en kötü şey, sizin merge edip kendiniz push edebileceğiniz, incelenebilir yerel bir branch bırakmaktır.
+
+---
+
+<!-- prev-next -->
+[Sonraki: Başlangıç →](./getting-started.md)

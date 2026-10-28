@@ -70,3 +70,8 @@ do is leave a reviewable local branch.**
   base branch back out, and deletes the task branch. (Refused while a task is
   running — `/cancel` first.)
 - `/branches` lists existing `telepath/*` branches at any time.
+
+---
+
+<!-- prev-next -->
+[← Previous: Permissions](./permissions.md)  ·  [Next: Architecture →](./architecture.md)

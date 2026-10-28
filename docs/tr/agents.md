@@ -82,3 +82,8 @@ Aider'ın kendi git entegrasyonu **devre dışıdır** (`--no-auto-commits --no-
 - Her ajan CLI'si, sizin kurup kimlik doğrulaması yaptığınız **dış bir bağımlılıktır**. Bir CLI eksikse `/agents` onu kurulu değil olarak gösterir ve o ajana yönelik görevler açık bir mesajla reddedilir.
 
 Kendi adaptörünüzü yazmak için bkz. [Ajan ekleme](adding-an-agent.md).
+
+---
+
+<!-- prev-next -->
+[← Önceki: Telegram komutları](./telegram-commands.md)  ·  [Sonraki: İzinler →](./permissions.md)

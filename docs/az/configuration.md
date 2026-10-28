@@ -10,12 +10,17 @@ Hər mühit dəyişəninin `--kebab-case` bayraq ekvivalenti var. `.env` faylı 
 
 ## İstinad
 
-Məcburi dəyişənlər ✅ ilə qeyd olunub. Mötərizədəki dəyərlər standart dəyərlərdir.
+**Məcburi** sütununda `telegram` / `slack` o deməkdir ki, dəyişən yalnız həmin transport aktiv olduqda tələb olunur; boş olan dəyərlər isə ixtiyaridir.
 
 | Mühit dəyişəni | CLI bayrağı | Standart | Məcburi | Təsvir |
 |----------------|-------------|----------|:-------:|--------|
-| `TELEGRAM_BOT_TOKEN` | `--telegram-bot-token` | — | ✅ | @BotFather-dən bot token-i. |
-| `ALLOWED_CHAT_IDS` | `--allowed-chat-ids` | — | ✅ | Botdan istifadə etməyə icazəli vergüllə ayrılmış chat ID-ləri. Telepath ən azı bir ID olmadan başlamaqdan imtina edir. |
+| `TRANSPORT` | `--transport` | `telegram` | | `telegram` \| `slack` \| `both`. Hansı mesajlaşma ön hissəsinin (hissələrinin) işə salınacağı. Bax: [Transportlar](transports.md). |
+| `TELEGRAM_BOT_TOKEN` | `--telegram-bot-token` | — | telegram | @BotFather-dən bot token-i. `TRANSPORT` telegram-ı daxil etdikdə tələb olunur. |
+| `ALLOWED_CHAT_IDS` | `--allowed-chat-ids` | — | telegram | Botdan istifadə etməyə icazəli vergüllə ayrılmış Telegram chat ID-ləri. `telegram` aktiv olduqda ən azı 1 tələb olunur (≥1). |
+| `SLACK_BOT_TOKEN` | `--slack-bot-token` | — | slack | Slack bot token-i (`xoxb-…`). `TRANSPORT` slack-i daxil etdikdə tələb olunur. |
+| `SLACK_APP_TOKEN` | `--slack-app-token` | — | slack | Socket Mode üçün Slack tətbiq səviyyəli token-i (`xapp-…`). `slack` aktiv olduqda tələb olunur. |
+| `ALLOWED_SLACK_USER_IDS` | `--allowed-slack-user-ids` | — | | Tapşırıqları işə sala bilən vergüllə ayrılmış Slack user ID-ləri (ixtiyari). |
+| `ALLOWED_SLACK_CHANNEL_IDS` | `--allowed-slack-channel-ids` | — | | Tapşırıqları işə sala bilən vergüllə ayrılmış Slack channel ID-ləri (ixtiyari). |
 | `PROJECTS_DIR` | `--projects-dir` | `.` | | Agentin işlədiyi qovluq. `per-task` branch rejimi üçün git repozitori olmalıdır. |
 | `DEFAULT_AGENT` | `--default-agent` | `claude` | | Chat üçün standart agent. `ENABLED_AGENTS` daxilində olmalıdır. |
 | `ENABLED_AGENTS` | `--enabled-agents` | `claude,gemini,codex,aider` | | Vergüllə ayrılmış aktiv agentlər. |
@@ -60,3 +65,8 @@ BRANCH_COMMIT=true
 BRANCH_STASH_DIRTY=false
 LOG_LEVEL=info
 ```
+
+---
+
+<!-- prev-next -->
+[← Əvvəlki: Başlanğıc](./getting-started.md)  ·  [Növbəti: Nəqliyyatlar →](./transports.md)

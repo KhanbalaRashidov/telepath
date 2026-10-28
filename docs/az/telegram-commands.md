@@ -26,7 +26,37 @@ Qeydlər:
 - Hər chat-da eyni anda **yalnız bir tapşırıq** işləyir və bütün chat-lar eyni working tree-ni paylaşdığı üçün tapşırıqlar **qlobal ardıcıllıqla** icra olunur. İş sahəsi məşğul olduqda qısa "yenidən cəhd edin" cavabı alırsınız.
 - `/resume` yalnız resume imkanını bildirən agentlər üçün işləyir — hal-hazırda **Claude**. `auto` icazə rejimində işləyir və layihə qovluğu yaddaşdakı xəritədən bərpa olunur; Telepath yenidən başladıqda bu xəritə itir.
 
+## Slack əmrləri
+
+Slack-də yuxarıdakı hər əmr tək `/telepath` slash əmrinin alt əmridir, tapşırıqlar isə botu
+mention etməklə və ya ona DM yazmaqla işə salınır. Uyğunluq Telegram ilə **1:1**-dir:
+
+| Telegram | Slack |
+|----------|-------|
+| `/help` | `/telepath help` |
+| `/agents` | `/telepath agents` |
+| `/use <agent>` | `/telepath use <agent>` |
+| `/perm <mode>` | `/telepath perm <mode>` |
+| `/branch <mode>` | `/telepath branch <mode>` |
+| `/branches` | `/telepath branches` |
+| `/status` | `/telepath status` |
+| `/cancel` | `/telepath cancel` |
+| `/resume <text>` | `/telepath resume <text>` |
+| `/<agent> <task>` | `/telepath <agent> <task>` və ya `@Telepath <agent>: <task>` |
+| *(düz mesaj)* | `@Telepath <task>` və ya birbaşa mesaj |
+
+Qeydlər:
+
+- `/telepath` alt əmri tanınmış əmr və ya agent adı deyilsə, standart agentin tapşırığı kimi qəbul olunur
+  (məsələn `/telepath fix the flaky test`).
+- Tapşırığın çıxışı işə salan mesajın altında **thread**-də göndərilir (slash əmrləri üçün botun
+  ilk cavabının altında). Canlı status mesajı Telegram-da olduğu kimi yerində redaktə olunur.
+- Botdan kimin istifadə edə biləcəyi `ALLOWED_SLACK_USER_IDS` / `ALLOWED_SLACK_CHANNEL_IDS` ilə
+  idarə olunur (bax: [Təhlükəsizlik](security.md)).
+
 ## Inline düymələr
+
+Aşağıdakı düymələr hər iki transportda işləyir (Telegram inline klaviaturaları, Slack Block Kit).
 
 ### Təsdiq (interactive rejim)
 
@@ -53,3 +83,8 @@ Tapşırıq tapşırıq branch-ında bitdikdə (və ya uğursuz olduqda) Telepat
 ```
 
 Redaktələr throttle olunub, beləliklə mesaj hər token üçün deyil, təxminən saniyədə bir dəfə yenilənir. Hər fayl redaktəsi də öz mesajı kimi unified diff ilə göndərilir (Telegram üçün çox böyükdürsə, `.diff` sənədi kimi).
+
+---
+
+<!-- prev-next -->
+[← Əvvəlki: Nəqliyyatlar](./transports.md)  ·  [Növbəti: Agentlər →](./agents.md)

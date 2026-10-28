@@ -124,3 +124,8 @@ Claude's MCP permission-prompt tool). If it doesn't, leave
 
 CLI flags change often. Before coding, run the tool's `--help` and read its docs,
 and implement to the **real** current interface — don't trust guessed flags.
+
+---
+
+<!-- prev-next -->
+[← Previous: Docker](./docker.md)  ·  [Next: Security →](./security.md)

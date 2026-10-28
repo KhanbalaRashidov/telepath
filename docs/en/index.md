@@ -16,7 +16,8 @@ interface) and gives each task its own **git branch**, with optional live
 |------|---------------|
 | [Getting started](getting-started.md) | Prerequisites, install per OS, create a bot, first run, first task |
 | [Configuration](configuration.md) | Every environment variable and CLI flag, with defaults and precedence |
-| [Telegram commands](telegram-commands.md) | Every command and inline button, with examples |
+| [Transports](transports.md) | Telegram, Slack, or both; how to choose; the no-public-IP property |
+| [Telegram commands](telegram-commands.md) | Every command and inline button (Telegram and Slack), with examples |
 | [Agents](agents.md) | The multi-agent model, capability matrix, and exact CLI invocations |
 | [Permissions](permissions.md) | `auto` / `allowlist` / `interactive` and how live approval works |
 | [Branch workflow](branch-workflow.md) | Per-task branches, commits, guards, and cleanup |
@@ -32,3 +33,8 @@ interface) and gives each task its own **git branch**, with optional live
 **Telepath never pushes, never merges, and never touches `main`/`master` or the
 remote.** The worst a task can do is leave a reviewable local branch that you
 merge and push yourself.
+
+---
+
+<!-- prev-next -->
+[Next: Getting started →](./getting-started.md)

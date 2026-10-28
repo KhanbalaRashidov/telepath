@@ -47,3 +47,8 @@ Konteyner daxilində `PROJECTS_DIR` `/work/project`-ə təyin olunur — repozit
 
 - **Telegram bot token-i** və **icazəli chat ID-ləri** Telepath konfiqurasiyasıdır — onları env faylı / `-e` ilə ötürün.
 - **Agent autentifikasiyası** (API açarları / login-lər) Telepath-a yox, agent CLI-larına aiddir. Onları agentlərin öz mühit dəyişənləri ilə təqdim edin və ya konfiqurasiya qovluqlarını mount edin (məsələn `-v ~/.claude:/root/.claude`). Bax hər agentin sənədləri.
+
+---
+
+<!-- prev-next -->
+[← Əvvəlki: Arxitektura](./architecture.md)  ·  [Növbəti: Agent əlavə etmək →](./adding-an-agent.md)

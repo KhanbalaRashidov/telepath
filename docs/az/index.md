@@ -10,7 +10,8 @@ Telepath — tapşırıqları Telegram-dan öz maşınınızda işləyən kodla�
 |--------|-----------|
 | [Başlanğıc](getting-started.md) | Tələblər, hər OS üçün quraşdırma, bot yaratmaq, ilk işə salma, ilk tapşırıq |
 | [Konfiqurasiya](configuration.md) | Hər mühit dəyişəni və CLI bayrağı, standart dəyərləri və prioritetləri ilə |
-| [Telegram əmrləri](telegram-commands.md) | Hər əmr və inline düymə, nümunələrlə |
+| [Transportlar](transports.md) | Telegram, Slack və ya hər ikisi; necə seçmək; ictimai IP tələb olunmaması |
+| [Telegram əmrləri](telegram-commands.md) | Hər əmr və inline düymə (Telegram və Slack), nümunələrlə |
 | [Agentlər](agents.md) | Çoxagentli model, imkanlar cədvəli və dəqiq CLI çağırışları |
 | [İcazələr](permissions.md) | `auto` / `allowlist` / `interactive` və canlı təsdiqin necə işlədiyi |
 | [Branch iş axını](branch-workflow.md) | Hər tapşırıq üzrə branch-lar, commit-lər, qoruyucular və təmizlənmə |
@@ -24,3 +25,8 @@ Telepath — tapşırıqları Telegram-dan öz maşınınızda işləyən kodla�
 ## Yadda saxlanılmalı bir şey
 
 **Telepath heç vaxt push etmir, heç vaxt merge etmir və heç vaxt `main`/`master`-ə və ya remote-a toxunmur.** Bir tapşırığın edə biləcəyi ən pis şey, sizin merge edib özünüz push edəcəyiniz, yoxlanıla bilən yerli branch qoymaqdır.
+
+---
+
+<!-- prev-next -->
+[Növbəti: Başlanğıc →](./getting-started.md)

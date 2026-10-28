@@ -62,6 +62,7 @@ plugins:
             Home: Главная
             Getting started: Начало работы
             Configuration: Конфигурация
+            Transports: Транспорты
             Telegram commands: Команды Telegram
             Agents: Агенты
             Permissions: Разрешения
@@ -78,6 +79,7 @@ plugins:
             Home: Ana sayfa
             Getting started: Başlangıç
             Configuration: Yapılandırma
+            Transports: Taşıyıcılar
             Telegram commands: Telegram komutları
             Agents: Ajanlar
             Permissions: İzinler
@@ -94,6 +96,7 @@ plugins:
             Home: Əsas səhifə
             Getting started: Başlanğıc
             Configuration: Konfiqurasiya
+            Transports: Nəqliyyatlar
             Telegram commands: Telegram əmrləri
             Agents: Agentlər
             Permissions: İcazələr
@@ -123,6 +126,7 @@ nav:
   - Home: en/index.md
   - Getting started: en/getting-started.md
   - Configuration: en/configuration.md
+  - Transports: en/transports.md
   - Telegram commands: en/telegram-commands.md
   - Agents: en/agents.md
   - Permissions: en/permissions.md

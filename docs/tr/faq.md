@@ -11,11 +11,14 @@ Windows, Linux ve macOS'ta yerel olarak (tek kod tabanı, saf Go, CGO kapalı) v
 **Hangi ajanlar canlı onayı destekliyor?**
 Yalnızca **Claude Code** (MCP izin-istemi aracı üzerinden). gemini, codex ve aider için `interactive` otomatik olarak `allowlist`'e geri döner.
 
+**Yalnızca Telegram mı, yoksa Slack ile de çalışır mı?**
+İkisi de. `TRANSPORT=slack` (veya `both`) ayarlayın ve `xoxb-`/`xapp-` token'larını sağlayın. Görevleri botu etiketleyerek, ona DM göndererek ya da `/telepath …` kullanarak tetikleyin. Bkz. [Transport'lar](transports.md).
+
 **Aynı anda birden fazla görev çalıştırabilir mi?**
-Hayır. Tüm sohbetler tek bir `PROJECTS_DIR` çalışma ağacını paylaştığı için görevler **sıraya alınır** — genel olarak aynı anda bir tane, sohbet başına da bir tane. Bkz. [Sorun giderme](troubleshooting.md).
+Hayır. Tüm konuşmalar (Telegram sohbetleri ve Slack kanalları) tek bir `PROJECTS_DIR` çalışma ağacını paylaştığı için görevler **sıraya alınır** — genel olarak aynı anda bir tane, konuşma başına da bir tane. Bkz. [Sorun giderme](troubleshooting.md).
 
 **NAT arkasında / genel IP olmadan çalışır mı?**
-Evet. Telegram **long-polling** (yalnızca giden bağlantı) kullanır — webhook, gelen port veya genel IP gerekmez.
+Evet. Telegram **long-polling**, Slack ise **Socket Mode** kullanır — ikisi de yalnızca giden bağlantıdır; webhook, gelen port veya genel IP gerekmez.
 
 **Ajan API anahtarlarım nereye gider?**
 Ajan CLI'lerinde, host makinenizde kalırlar; her ajanın kendi dokümanlarına göre yapılandırılır. Telepath yalnızca Telegram bot token'ını ve sohbet allowlist'ini tutar. Bkz. [Güvenlik](security.md).
@@ -34,3 +37,8 @@ Releases sayfasından en son ikili dosyayı indirin ya da kaynaktan yeniden derl
 
 **Maliyetler nedir?**
 Telepath ücretsizdir (MIT). Yalnızca kendi ajan hesaplarınız üzerinden kullanılan ajan/model kullanımının bedelini ödersiniz.
+
+---
+
+<!-- prev-next -->
+[← Önceki: Sorun giderme](./troubleshooting.md)

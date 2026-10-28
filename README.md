@@ -13,18 +13,20 @@ clean, reviewable git branch.**
 [![Go](https://img.shields.io/github/go-mod/go-version/KhanbalaRashidov/telepath)](go.mod)
 [![License](https://img.shields.io/github/license/KhanbalaRashidov/telepath)](./LICENSE)
 
-Telepath is a self-hosted bridge between Telegram and a coding agent (Claude
-Code, Gemini CLI, OpenAI Codex CLI, or Aider) running on your dev box. You text
-it a task; it runs the agent inside your project and streams back what it's
-doing — assistant notes, file diffs, commands, approval requests, and a final
-summary with the full git diff.
+Telepath is a self-hosted bridge between **Telegram or Slack** and a coding agent
+(Claude Code, Gemini CLI, OpenAI Codex CLI, or Aider) running on your dev box.
+You text it a task; it runs the agent inside your project and streams back what
+it's doing — assistant notes, file diffs, commands, approval requests, and a
+final summary with the full git diff.
 
-Two things set it apart from a plain bridge:
+Three things set it apart from a plain bridge:
 
+- 💬 **Telegram, Slack, or both.** Pick your front-end with `TRANSPORT`; both
+  work behind NAT with no public IP (long-polling / Socket Mode).
 - 🧩 **Agent-agnostic.** One common interface drives multiple agents; switch per
-  chat with `/use`. Adding an agent is a new package plus one line.
+  conversation with `/use`. Adding an agent is a new package plus one line.
 - 🌿 **A real git + permission workflow.** Each task runs on its own branch, and
-  you can approve/deny the agent's sensitive actions live from Telegram.
+  you can approve/deny the agent's sensitive actions live from chat.
   **Telepath never pushes, never merges, and never touches `main`/`master`.**
 
 ## Documentation
@@ -133,6 +135,20 @@ cp .env.example .env
 Then in Telegram: send `/help`, then just describe a task, e.g.
 `fix the null check in parser.go and add a test`.
 
+**Prefer Slack?** Set `TRANSPORT=slack` with a Slack app in Socket Mode:
+
+```dotenv
+TRANSPORT=slack
+SLACK_BOT_TOKEN=xoxb-your-bot-token
+SLACK_APP_TOKEN=xapp-your-app-token
+ALLOWED_SLACK_USER_IDS=U0123456789
+PROJECTS_DIR=/path/to/your/git/repo
+```
+
+Then `@Telepath <task>`, DM the bot, or use `/telepath help`. Use
+`TRANSPORT=both` to run Telegram and Slack together. See the
+[Transports](docs/en/transports.md) and [getting-started](docs/en/getting-started.md) docs.
+
 ## Configuration
 
 Resolved in precedence order **CLI flags > environment > `.env` > defaults**.
@@ -140,8 +156,13 @@ Every variable has a `--kebab-case` flag equivalent (see `telepath --help`).
 
 | Env var | Flag | Default | Description |
 |---------|------|---------|-------------|
-| `TELEGRAM_BOT_TOKEN` | `--telegram-bot-token` | *(required)* | Bot token from @BotFather |
-| `ALLOWED_CHAT_IDS` | `--allowed-chat-ids` | *(required)* | CSV of chat IDs allowed to use the bot |
+| `TRANSPORT` | `--transport` | `telegram` | `telegram` \| `slack` \| `both` |
+| `TELEGRAM_BOT_TOKEN` | `--telegram-bot-token` | *(telegram)* | Bot token from @BotFather |
+| `ALLOWED_CHAT_IDS` | `--allowed-chat-ids` | *(telegram)* | CSV of Telegram chat IDs allowed to use the bot |
+| `SLACK_BOT_TOKEN` | `--slack-bot-token` | *(slack)* | Slack bot token `xoxb-` |
+| `SLACK_APP_TOKEN` | `--slack-app-token` | *(slack)* | Slack app-level token `xapp-` (Socket Mode) |
+| `ALLOWED_SLACK_USER_IDS` | `--allowed-slack-user-ids` | *(empty)* | CSV of allowed Slack user IDs (optional) |
+| `ALLOWED_SLACK_CHANNEL_IDS` | `--allowed-slack-channel-ids` | *(empty)* | CSV of allowed Slack channel IDs (optional) |
 | `PROJECTS_DIR` | `--projects-dir` | `.` | Directory the agent works in (a git repo for per-task branches) |
 | `DEFAULT_AGENT` | `--default-agent` | `claude` | Default agent (must be enabled) |
 | `ENABLED_AGENTS` | `--enabled-agents` | `claude,gemini,codex,aider` | CSV of enabled agents |

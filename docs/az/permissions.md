@@ -72,3 +72,8 @@ Telepath loopback üzərində kiçik **proses daxili MCP server** başladır və
 - Etibarlı, yaxşı məhdudlaşdırılmış tapşırıqlar və sürət istəyirsinizsə → `auto`.
 - Daimi nəzarət olmadan təhlükəsizlik şəbəkəsi istəyirsinizsə → `allowlist`.
 - Həssas repozitori var və ya hər riskli addımı görmək istəyirsinizsə → `interactive` (Claude).
+
+---
+
+<!-- prev-next -->
+[← Əvvəlki: Agentlər](./agents.md)  ·  [Növbəti: Branch iş axını →](./branch-workflow.md)

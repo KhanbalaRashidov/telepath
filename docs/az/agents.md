@@ -83,3 +83,8 @@ Aider-in öz git inteqrasiyası **söndürülüb** (`--no-auto-commits --no-git`
 - Hər agent CLI-ı sizin özünüz quraşdırdığınız və autentifikasiya etdiyiniz **xarici asılılıqdır**. CLI yoxdursa, `/agents` onu quraşdırılmamış kimi göstərir və həmin agent üçün tapşırıqlar aydın mesajla rədd edilir.
 
 Öz adapterinizi yazmaq üçün bax: [Agent əlavə etmək](adding-an-agent.md).
+
+---
+
+<!-- prev-next -->
+[← Əvvəlki: Telegram əmrləri](./telegram-commands.md)  ·  [Növbəti: İcazələr →](./permissions.md)

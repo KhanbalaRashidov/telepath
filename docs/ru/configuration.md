@@ -12,12 +12,18 @@ Telepath читает конфигурацию из четырёх источн�
 
 ## Справочник
 
-Обязательные переменные отмечены ✅. Значения в скобках — значения по умолчанию.
+В столбце **Обязательна** значение `telegram` / `slack` означает, что переменная обязательна
+только при включённом соответствующем транспорте; пустая ячейка означает, что переменная необязательна.
 
 | Переменная окружения | Флаг CLI | По умолчанию | Обязательна | Описание |
 |----------------------|----------|--------------|:-----------:|----------|
-| `TELEGRAM_BOT_TOKEN` | `--telegram-bot-token` | — | ✅ | Токен бота от @BotFather. |
-| `ALLOWED_CHAT_IDS` | `--allowed-chat-ids` | — | ✅ | Chat ID через запятую, которым разрешено использовать бота. Telepath не запустится без хотя бы одного. |
+| `TRANSPORT` | `--transport` | `telegram` | | `telegram` \| `slack` \| `both`. Какой фронтенд (или фронтенды) для сообщений запускать. См. [Транспорты](transports.md). |
+| `TELEGRAM_BOT_TOKEN` | `--telegram-bot-token` | — | telegram | Токен бота от @BotFather. Обязателен, когда `TRANSPORT` включает `telegram`. |
+| `ALLOWED_CHAT_IDS` | `--allowed-chat-ids` | — | telegram | Chat ID Telegram через запятую, которым разрешено использовать бота. Обязательно (≥1), когда включён `telegram`. |
+| `SLACK_BOT_TOKEN` | `--slack-bot-token` | — | slack | Токен бота Slack (`xoxb-…`). Обязателен, когда `TRANSPORT` включает `slack`. |
+| `SLACK_APP_TOKEN` | `--slack-app-token` | — | slack | Токен уровня приложения Slack (`xapp-…`) для Socket Mode. Обязателен, когда включён `slack`. |
+| `ALLOWED_SLACK_USER_IDS` | `--allowed-slack-user-ids` | — | | ID пользователей Slack через запятую, которым разрешено запускать задачи (необязательно). |
+| `ALLOWED_SLACK_CHANNEL_IDS` | `--allowed-slack-channel-ids` | — | | ID каналов Slack через запятую, в которых разрешено запускать задачи (необязательно). |
 | `PROJECTS_DIR` | `--projects-dir` | `.` | | Папка, в которой работает агент. Должна быть git-репозиторием для режима веток `per-task`. |
 | `DEFAULT_AGENT` | `--default-agent` | `claude` | | Агент по умолчанию для чата. Должен быть указан в `ENABLED_AGENTS`. |
 | `ENABLED_AGENTS` | `--enabled-agents` | `claude,gemini,codex,aider` | | Включённые агенты через запятую. |
@@ -67,3 +73,8 @@ BRANCH_COMMIT=true
 BRANCH_STASH_DIRTY=false
 LOG_LEVEL=info
 ```
+
+---
+
+<!-- prev-next -->
+[← Назад: Начало работы](./getting-started.md)  ·  [Вперёд: Транспорты →](./transports.md)

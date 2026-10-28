@@ -112,5 +112,56 @@ the result on that branch, and finally posts the `git diff --stat` with the full
 diff as a `.diff` document and **Keep branch / Delete branch & restore base**
 buttons.
 
-Next: read [Telegram commands](telegram-commands.md),
-[Permissions](permissions.md), and the [Branch workflow](branch-workflow.md).
+## Slack setup (optional)
+
+Prefer Slack, or want both? Telepath also runs over Slack via **Socket Mode**
+(no public URL needed). See [Transports](transports.md) for the comparison.
+
+1. **Create a Slack app** at <https://api.slack.com/apps> → *Create New App* →
+   *From scratch*. Pick a name and workspace.
+2. **Enable Socket Mode**: *Settings → Socket Mode → Enable*. This generates an
+   **app-level token** (`xapp-…`) with the `connections:write` scope — copy it.
+3. **Add bot scopes**: *Features → OAuth & Permissions → Scopes → Bot Token
+   Scopes*, add: `app_mentions:read`, `chat:write`, `commands`, `files:write`,
+   `im:history`, `im:read`, `channels:history`, `groups:history`.
+4. **Create the slash command**: *Features → Slash Commands → Create New
+   Command* → `/telepath` (any description; the Request URL is ignored under
+   Socket Mode but Slack requires a value — any placeholder works).
+5. **Subscribe to events**: *Features → Event Subscriptions → Enable*, then under
+   *Subscribe to bot events* add `app_mention` and `message.im`.
+6. **Install to workspace**: *OAuth & Permissions → Install to Workspace*. Copy
+   the **Bot User OAuth Token** (`xoxb-…`).
+7. **Invite the bot** to any channel you want to use it in (`/invite @YourApp`),
+   or just DM it.
+8. **Find IDs** for the allowlist: a user ID (profile → *Copy member ID*,
+   `U…`) and/or a channel ID (channel details, `C…`).
+
+Minimal Slack `.env`:
+
+```dotenv
+TRANSPORT=slack
+SLACK_BOT_TOKEN=xoxb-your-bot-token
+SLACK_APP_TOKEN=xapp-your-app-token
+ALLOWED_SLACK_USER_IDS=U0123456789
+PROJECTS_DIR=/path/to/your/git/repo
+```
+
+Run `./telepath`, then in Slack mention the bot or use the slash command:
+
+```
+@Telepath add a /health endpoint that returns 200 OK and a test for it
+/telepath help
+/telepath claude fix the null check in parser.go
+```
+
+To run **both** transports at once, set `TRANSPORT=both` and provide both the
+Telegram and Slack credentials.
+
+Next: read [Transports](transports.md),
+[Telegram commands](telegram-commands.md), [Permissions](permissions.md), and
+the [Branch workflow](branch-workflow.md).
+
+---
+
+<!-- prev-next -->
+[← Previous: Home](./index.md)  ·  [Next: Configuration →](./configuration.md)

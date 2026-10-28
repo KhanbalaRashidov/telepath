@@ -72,3 +72,8 @@ Etkileşimli onay bir MCP izin kancası gerektirir ve bunu **yalnızca Claude** 
 - Güvenilir, iyi kapsamlı görevler ve hız istiyorsanız → `auto`.
 - Sürekli ilgilenmeden bir güvenlik ağı istiyorsanız → `allowlist`.
 - Hassas bir depoyla çalışıyorsanız veya her riskli adımı görmek istiyorsanız → `interactive` (Claude).
+
+---
+
+<!-- prev-next -->
+[← Önceki: Ajanlar](./agents.md)  ·  [Sonraki: Dal iş akışı →](./branch-workflow.md)

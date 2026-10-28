@@ -99,4 +99,42 @@ Bot ile Telegram sohbetinizde:
 
 Telepath `telepath/add-a-health-endpoint-260115-1430` gibi bir branch oluşturur, ajanı orada çalıştırır, canlı bir durum mesajı ile dosya başına diff'leri gösterir, sonucu o branch'e commit eder ve son olarak `git diff --stat` çıktısını ile tam diff'i `.diff` belgesi olarak, **Keep branch** ve **Delete branch & restore base** düğmeleriyle birlikte gönderir.
 
-Sonraki adım: [Telegram komutları](telegram-commands.md), [İzinler](permissions.md) ve [Branch iş akışı](branch-workflow.md) sayfalarını okuyun.
+## Slack kurulumu (isteğe bağlı)
+
+Slack'i tercih ediyorsanız ya da ikisini birden istiyorsanız, Telepath **Socket Mode** üzerinden Slack ile de çalışır (herkese açık bir URL gerekmez). Karşılaştırma için bkz. [Transport'lar](transports.md).
+
+1. <https://api.slack.com/apps> adresinde **bir Slack uygulaması oluşturun** → *Create New App* → *From scratch*. Bir ad ve çalışma alanı seçin.
+2. **Socket Mode'u etkinleştirin**: *Settings → Socket Mode → Enable*. Bu, `connections:write` kapsamına sahip bir **uygulama düzeyinde token** (`xapp-…`) üretir; kopyalayın.
+3. **Bot kapsamlarını ekleyin**: *Features → OAuth & Permissions → Scopes → Bot Token Scopes* altına şunları ekleyin: `app_mentions:read`, `chat:write`, `commands`, `files:write`, `im:history`, `im:read`, `channels:history`, `groups:history`.
+4. **Slash komutunu oluşturun**: *Features → Slash Commands → Create New Command* → `/telepath` (açıklama serbest; Socket Mode altında Request URL yok sayılır, ancak Slack bir değer ister — herhangi bir yer tutucu olabilir).
+5. **Olaylara abone olun**: *Features → Event Subscriptions → Enable*, ardından *Subscribe to bot events* altına `app_mention` ve `message.im` ekleyin.
+6. **Çalışma alanına yükleyin**: *OAuth & Permissions → Install to Workspace*. **Bot User OAuth Token**'ı (`xoxb-…`) kopyalayın.
+7. Botu kullanmak istediğiniz kanallara **davet edin** (`/invite @YourApp`) ya da doğrudan DM gönderin.
+8. Allowlist için **kimlikleri bulun**: kullanıcı kimliği (profil → *Copy member ID*, `U…`) ve/veya kanal kimliği (kanal ayrıntıları, `C…`).
+
+Minimal Slack `.env`:
+
+```dotenv
+TRANSPORT=slack
+SLACK_BOT_TOKEN=xoxb-your-bot-token
+SLACK_APP_TOKEN=xapp-your-app-token
+ALLOWED_SLACK_USER_IDS=U0123456789
+PROJECTS_DIR=/path/to/your/git/repo
+```
+
+`./telepath` komutunu çalıştırın, ardından Slack'te botu etiketleyin ya da slash komutunu kullanın:
+
+```
+@Telepath add a /health endpoint that returns 200 OK and a test for it
+/telepath help
+/telepath claude fix the null check in parser.go
+```
+
+**Her iki** transport'u aynı anda çalıştırmak için `TRANSPORT=both` ayarlayın ve hem Telegram hem de Slack kimlik bilgilerini sağlayın.
+
+Sonraki adım: [Transport'lar](transports.md), [Telegram komutları](telegram-commands.md), [İzinler](permissions.md) ve [Branch iş akışı](branch-workflow.md) sayfalarını okuyun.
+
+---
+
+<!-- prev-next -->
+[← Önceki: Ana sayfa](./index.md)  ·  [Sonraki: Yapılandırma →](./configuration.md)

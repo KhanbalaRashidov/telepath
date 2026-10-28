@@ -109,3 +109,8 @@ və (istəyə görə) binary override üçün `internal/config`-də `MYAGENT_BIN
 ## Əvvəlcə real bayraqları yoxlayın
 
 CLI bayraqları tez-tez dəyişir. Kodlaşdırmadan əvvəl alətin `--help`-ini işlədin və sənədlərini oxuyun, və **real hazırkı** interfeysə uyğun implement edin — təxmin edilmiş bayraqlara inanmayın.
+
+---
+
+<!-- prev-next -->
+[← Əvvəlki: Docker](./docker.md)  ·  [Növbəti: Təhlükəsizlik →](./security.md)

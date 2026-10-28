@@ -59,3 +59,8 @@ your repository is mounted.
   Telepath. Provide them via the agents' own environment variables or mount their
   config directories (for example `-v ~/.claude:/root/.claude`). See each
   agent's documentation.
+
+---
+
+<!-- prev-next -->
+[← Previous: Architecture](./architecture.md)  ·  [Next: Adding an agent →](./adding-an-agent.md)
