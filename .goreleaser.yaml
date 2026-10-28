@@ -1,0 +1,51 @@
+# goreleaser configuration. CGO is off for clean cross-compilation.
+version: 2
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: telepath
+    main: ./cmd/telepath
+    binary: telepath
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w -X main.version={{.Version}}
+    goos:
+      - windows
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - id: telepath
+    name_template: >-
+      {{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+
+checksum:
+  name_template: "checksums.txt"
+
+snapshot:
+  version_template: "{{ incpatch .Version }}-next"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+
+release:
+  github:
+    owner: telepath
+    name: telepath

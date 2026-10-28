@@ -1,0 +1,21 @@
+# Secrets / local config
+.env
+.env.local
+
+# Build output
+/telepath
+/telepath.exe
+/dist/
+/bin/
+
+# Go
+*.test
+*.out
+coverage.*
+
+# Editor / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db

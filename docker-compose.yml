@@ -1,0 +1,19 @@
+services:
+  telepath:
+    build:
+      context: .
+      dockerfile: Dockerfile # use Dockerfile.slim for the small, BYO-CLI image
+    image: telepath:latest
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      # Inside the container the projects live at /work/project (see the mount).
+      PROJECTS_DIR: /work/project
+    volumes:
+      # Mount the git repository / projects folder you want the agent to work in.
+      - ${PROJECTS_DIR:-./project}:/work/project
+      # Optional: persist agent auth/config (paths depend on the agent).
+      # - ~/.claude:/root/.claude
+      # - ~/.gemini:/root/.gemini
+      # - ~/.codex:/root/.codex

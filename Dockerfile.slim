@@ -1,0 +1,22 @@
+# Telepath — slim image (small and fast).
+# Contains only the telepath binary + git on a minimal base. Bring your own
+# agent CLIs: either mount them in and point the *_BIN env vars at them, or run
+# in BRANCH_MODE=off against a host that has them. No Node, no agents bundled.
+
+# --- stage 1: build the static Go binary -----------------------------------
+FROM golang:1.26-alpine AS build
+ENV CGO_ENABLED=0
+WORKDIR /src
+RUN apk add --no-cache git
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+ARG VERSION=docker
+RUN go build -ldflags "-s -w -X main.version=${VERSION}" -o /out/telepath ./cmd/telepath
+
+# --- stage 2: minimal runtime ----------------------------------------------
+FROM alpine:3.20
+RUN apk add --no-cache git ca-certificates
+COPY --from=build /out/telepath /usr/local/bin/telepath
+WORKDIR /work
+ENTRYPOINT ["telepath"]
