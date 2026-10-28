@@ -51,7 +51,7 @@ go install github.com/telepath/telepath/cmd/telepath@latest
 ### From source with the Makefile
 
 ```bash
-git clone https://github.com/telepath/telepath
+git clone https://github.com/KhanbalaRashidov/telepath
 cd telepath
 make build      # produces ./telepath (or telepath.exe on Windows)
 ```

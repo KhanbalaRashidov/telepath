@@ -4,10 +4,14 @@
 Watch it work in real time, approve its risky moves, and get every change as a
 clean, reviewable git branch.**
 
-[![CI](https://github.com/telepath/telepath/actions/workflows/ci.yml/badge.svg)](https://github.com/telepath/telepath/actions/workflows/ci.yml)
-[![Release](https://github.com/telepath/telepath/actions/workflows/release.yml/badge.svg)](https://github.com/telepath/telepath/actions/workflows/release.yml)
-[![Go](https://img.shields.io/badge/go-1.26-00ADD8?logo=go)](go.mod)
-[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+<!-- Badges point at the GitHub repo KhanbalaRashidov/telepath (from `git remote`).
+     If you fork/rename it, replace KhanbalaRashidov/telepath below.
+     The CI and Release badges stay "no status"/"no releases" until the first
+     push + workflow run and the first tagged release, respectively. -->
+[![CI](https://img.shields.io/github/actions/workflow/status/KhanbalaRashidov/telepath/ci.yml?branch=main&label=CI)](https://github.com/KhanbalaRashidov/telepath/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/KhanbalaRashidov/telepath)](https://github.com/KhanbalaRashidov/telepath/releases/latest)
+[![Go](https://img.shields.io/github/go-mod/go-version/KhanbalaRashidov/telepath)](go.mod)
+[![License](https://img.shields.io/github/license/KhanbalaRashidov/telepath)](./LICENSE)
 
 Telepath is a self-hosted bridge between Telegram and a coding agent (Claude
 Code, Gemini CLI, OpenAI Codex CLI, or Aider) running on your dev box. You text
@@ -80,7 +84,7 @@ back to `allowlist` for them and tells you which mode it used.
 ### 2. Install Telepath
 
 **Prebuilt binary** — download for your OS from
-[Releases](https://github.com/telepath/telepath/releases), then:
+[Releases](https://github.com/KhanbalaRashidov/telepath/releases), then:
 
 ```bash
 # Linux / macOS
@@ -103,7 +107,7 @@ docker run --rm -it \
   -e ALLOWED_CHAT_IDS=123456789 \
   -e PROJECTS_DIR=/work/project \
   -v /path/to/your/repo:/work/project \
-  ghcr.io/telepath/telepath:latest
+  ghcr.io/khanbalarashidov/telepath:latest
 ```
 
 **Docker slim (bring your own agent CLIs):**

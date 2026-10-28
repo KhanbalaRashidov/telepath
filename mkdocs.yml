@@ -1,8 +1,6 @@
 site_name: Telepath
 site_description: A multi-agent Telegram <-> coding-agent bridge with interactive approvals and per-task git branches.
-# Replace with your real repository URL if you forked/renamed it
-# (e.g. https://github.com/KhanbalaRashidov/telepath).
-repo_url: https://github.com/telepath/telepath
+repo_url: https://github.com/KhanbalaRashidov/telepath
 docs_dir: docs
 
 theme:
