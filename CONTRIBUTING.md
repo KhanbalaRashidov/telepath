@@ -40,6 +40,28 @@ Before opening a PR, make sure `go build ./...`, `go vet ./...`, and
    README "Supported agents" table.
 6. Add a parser unit test if the adapter parses structured output.
 
+## Adding a documentation language
+
+The docs live in `docs/<locale>/`, one folder per language, each with the same
+set of pages. English (`docs/en/`) is the canonical source. To add a language:
+
+1. Copy `docs/en/` to `docs/<locale>/` (e.g. `docs/de/`).
+2. Translate the **prose** in every page. Do **not** translate code blocks,
+   commands, env-var names, CLI flags, agent invocations, file/path names, JSON
+   keys, tool names (e.g. `mcp__telepath__approve`), or Telegram command names
+   (`/help`, `/perm`, …). Keep tables, mermaid diagrams, and internal links
+   parallel to `en/`.
+3. Keep the one-line **language switcher** at the top of each page; the switcher
+   text is identical in every language (relative links like `../en/agents.md`),
+   so just add your locale to it across all pages (including `en/`).
+4. Add the locale to `mkdocs.yml` under `plugins → i18n → languages` with its
+   `name` and a `nav_translations` block for the menu labels.
+5. Add a row to the language table in `docs/README.md` and the switcher line in
+   the root `README.md`.
+
+Keep every language factually identical to the code — no locale may claim a
+feature that doesn't exist.
+
 ## Commit / PR
 
 - Small, focused PRs. Describe the change and link the issue.

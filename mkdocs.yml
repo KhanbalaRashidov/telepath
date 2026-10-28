@@ -1,0 +1,117 @@
+site_name: Telepath
+site_description: A multi-agent Telegram <-> coding-agent bridge with interactive approvals and per-task git branches.
+# Replace with your real repository URL if you forked/renamed it
+# (e.g. https://github.com/KhanbalaRashidov/telepath).
+repo_url: https://github.com/telepath/telepath
+docs_dir: docs
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - search.highlight
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+# Keep the GitHub-facing language hub out of the rendered nav.
+not_in_nav: |
+  /README.md
+
+plugins:
+  - search
+  - i18n:
+      docs_structure: folder
+      languages:
+        - locale: en
+          default: true
+          name: English
+        - locale: ru
+          name: Русский
+          nav_translations:
+            Home: Главная
+            Getting started: Начало работы
+            Configuration: Конфигурация
+            Telegram commands: Команды Telegram
+            Agents: Агенты
+            Permissions: Разрешения
+            Branch workflow: Работа с ветками
+            Architecture: Архитектура
+            Docker: Docker
+            Adding an agent: Добавление агента
+            Security: Безопасность
+            Troubleshooting: Устранение неполадок
+            FAQ: FAQ
+        - locale: tr
+          name: Türkçe
+          nav_translations:
+            Home: Ana sayfa
+            Getting started: Başlangıç
+            Configuration: Yapılandırma
+            Telegram commands: Telegram komutları
+            Agents: Ajanlar
+            Permissions: İzinler
+            Branch workflow: Dal iş akışı
+            Architecture: Mimari
+            Docker: Docker
+            Adding an agent: Ajan ekleme
+            Security: Güvenlik
+            Troubleshooting: Sorun giderme
+            FAQ: SSS
+        - locale: az
+          name: Azərbaycanca
+          nav_translations:
+            Home: Əsas səhifə
+            Getting started: Başlanğıc
+            Configuration: Konfiqurasiya
+            Telegram commands: Telegram əmrləri
+            Agents: Agentlər
+            Permissions: İcazələr
+            Branch workflow: Branch iş axını
+            Architecture: Arxitektura
+            Docker: Docker
+            Adding an agent: Agent əlavə etmək
+            Security: Təhlükəsizlik
+            Troubleshooting: Nasazlıqların aradan qaldırılması
+            FAQ: Tez-tez verilən suallar
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - tables
+  - toc:
+      permalink: true
+
+# The nav uses the default-language (en) paths; mkdocs-static-i18n maps each
+# item to the matching file under ru/, tr/, az/ for the other locales.
+nav:
+  - Home: en/README.md
+  - Getting started: en/getting-started.md
+  - Configuration: en/configuration.md
+  - Telegram commands: en/telegram-commands.md
+  - Agents: en/agents.md
+  - Permissions: en/permissions.md
+  - Branch workflow: en/branch-workflow.md
+  - Architecture: en/architecture.md
+  - Docker: en/docker.md
+  - Adding an agent: en/adding-an-agent.md
+  - Security: en/security.md
+  - Troubleshooting: en/troubleshooting.md
+  - FAQ: en/faq.md

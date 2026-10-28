@@ -23,6 +23,19 @@ Two things set it apart from a plain bridge:
   you can approve/deny the agent's sensitive actions live from Telegram.
   **Telepath never pushes, never merges, and never touches `main`/`master`.**
 
+## Documentation
+
+Full docs live in [`docs/`](docs/README.md), in four languages:
+
+- 🇬🇧 [English](docs/en/README.md) · 🇷🇺 [Русский](docs/ru/README.md) · 🇹🇷 [Türkçe](docs/tr/README.md) · 🇦🇿 [Azərbaycanca](docs/az/README.md)
+
+They cover [getting started](docs/en/getting-started.md),
+[configuration](docs/en/configuration.md),
+[Telegram commands](docs/en/telegram-commands.md),
+[agents](docs/en/agents.md), [permissions](docs/en/permissions.md),
+[branch workflow](docs/en/branch-workflow.md), [Docker](docs/en/docker.md),
+[security](docs/en/security.md), and more. The quick start below stays here.
+
 ## What it is
 
 ```mermaid
